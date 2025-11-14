@@ -50,6 +50,16 @@
                 <button type="play" id="soundtest" class="buttonstyleplay">Play sound</button><br><br>
                 <p id="soundresponse"></p><br>
         </div>
+
+<button onclick="toggleLiveInput()">Start</button>
+
+<div id="detector" class="confident">
+<div class="pitch"><span id="pitch">440</span>Hz</div>
+<div class="note"><span id="note">A</span></div>   
+<canvas id="output" width="300" height="42"></canvas>
+<div id="detune" class=""><span id="detune_amt">--</span><span id="flat">cents &#9837;</span><span id="sharp">cents &#9839;</span></div>
+
+
     </main>
     <br>
     <footer style="background-color: rgb(95, 8, 8)">

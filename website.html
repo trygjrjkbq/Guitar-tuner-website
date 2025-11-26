@@ -12,7 +12,7 @@
             
         <nav class="navbar">
             <ul>
-                <a id="lang" href="https://platforma.polsl.pl/rau1/"><img src="images/mini_image_test.jpg"></a>
+                <div class="lang" id="lang" onclick="langSwitchBool()"><img id="langIcon" src="images/LanguageEnglish.jpg"></div>
             </ul>
             <ul id = "u2">
                 <li><a id="NavRight" href="website.html">Home Page</a></li>
@@ -50,22 +50,23 @@
                 <p id="soundresponse"></p><br>
         </div>
 <br><br><br><br><br><br><br><br><br><br>
-<!-- TUNER UI: część zastępująca stary "detector" -->
+
 <div id="detector" class="confident tuner-container">
 
     <button onclick="toggleLiveInput()">Start</button><br>
     <div class="slidecontainer">
         <input type="range" min="1" max="10" value="3" class="slider" id="slider">
-        <p>Value: <span id="sliderValue"></span></p>
+        <p>Value: <span id="sliderValue">4096</span></p>
         <button onclick="updateBufferSize()">Set sample buffer size</button>
     </div>
 
-  <!-- Lewa kolumna: częstotliwość, nazwa nuty, centy i kontrolki -->
+
 <div class="tuner-left">
     <div class="freq" id="freqDisplay">-- Hz</div>
     <div class="note bignote"><span id="note">-</span></div>
-    <div class="noteMatch"><span id="noteMatch">--</span></div> <!-- tutaj -->
+    <div class="noteMatch">Closest guitar note: <span id="noteMatch">--</span></div>
     <div class="cents">Offset: <span id="detune_amt">--</span> cent</div>
+    <div class="noteOffset">Offset from note by: <span id="noteOffset">--</span> Hz.</div><br>
     <div class="controls">
         <div id="colorBox" class="color-box" title="Jak blisko jesteś"></div>
     </div>

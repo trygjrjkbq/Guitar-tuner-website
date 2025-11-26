@@ -27,7 +27,27 @@ playsound.onclick = function() {
 }
 
 ////////////////////////////////////////////////////////////////////
+//////////////Language control//////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
+var langSwitch = true;
+
+var langimg = document.createElement("langimg");
+var src = document.getElementById("lang");
+
+
+function langSwitchBool() {
+if (langSwitch)
+{
+langSwitch = false;
+document.getElementById("langIcon").src="images/LanguagePolish.jpg";
+}
+else
+{
+langSwitch = true;
+document.getElementById("langIcon").src="images/LanguageEnglish.jpg";
+}
+}
 
 
 ////////////////////////////////////////////////////////////////////
@@ -48,7 +68,7 @@ var MIN_SAMPLES = 0;
 const noteStrings = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 var noteChart = [82.41, 110, 146.83, 196, 246.94, 329.63];
 var noteChartString = ["E2", "A2", "D3", "G3", "B3", "E4"];
-
+var Gnote = 0;
 var bufSize = 2;
 var detectorElem, 
 	canvasElem,
@@ -62,6 +82,7 @@ const freqDisplay = document.getElementById('freqDisplay');
 const colorBox = document.getElementById('colorBox');
 const needle = document.getElementById('needle');
 
+//Variables connected to the website
 window.onload = function() {
 	audioContext = new AudioContext();
 	detectorElem = document.getElementById( "detector" );
@@ -73,16 +94,14 @@ window.onload = function() {
 	slider = document.getElementById("slider");
     result = document.getElementById("sliderValue");
 	noteMatch = document.getElementById("noteMatch");
-    if(slider){
-        slider.oninput = function() {
-            const sliderVal = slider.value - 1;
-            bufSize = 1024 * 2**sliderVal;
-            buf = new Float32Array(bufSize);
-            if(result) result.innerText = bufSize;
-        }
-    }
-
+    noteOffset = document.getElementById("noteOffset");
     createArcTicks(17, 15, -80, 80);
+}
+
+// Updating size of buffer
+    slider.oninput = function() {
+	var sliderVal = slider.value - 1;
+	bufSize = 1024*2**sliderVal;
 }
 
 function updateBufferSize(){
@@ -142,20 +161,19 @@ function centsOffFromPitch(frequency, note) {
 }
 
 function guitarNoteSearch( frequency ){
-	var compareNote = Infinity;
+	var compareNote;
 	var noteTemp;
-	var Gnote;
 	for (o=0;o<noteChart.length;o++)
 	{
-		noteTemp = Math.abs(frequency-noteChart[o]);
-		if(noteTemp < compareNote || o == 0)
+		noteTemp = frequency-noteChart[o];
+		if(Math.abs(noteTemp) < compareNote || o == 0)
 		{
-			compareNote = noteTemp;
+			compareNote = Math.abs(noteTemp);
 			Gnote = o;
-			//console.log(noteTemp);
 		}
 	}
-	return Gnote;
+	console.log(noteTemp);
+	return noteTemp;
 }
 
 function autoCorrelate(buf, sampleRate) {
@@ -259,10 +277,7 @@ function updatePitch(){
     analyser.getFloatTimeDomainData(buf);
     const ac = autoCorrelate(buf, audioContext.sampleRate);
 
-    const noteMatchElem = document.getElementById('noteMatch');
-
     if(ac==-1){
-        //if (detectorElem) detectorElem.className = "vague";
 	 	if (pitchElem) pitchElem.innerText = "--";
 		if (noteElem) noteElem.innerText = "-";
 		if (detuneElem) detuneElem.className = "";
@@ -272,13 +287,7 @@ function updatePitch(){
         if (colorBox) colorBox.style.background='#888';
         updateArcTicks(0);
 
-        if(noteMatchElem){
-            noteMatchElem.textContent = '--';
-            noteMatchElem.style.color = '#fff';
-        }
-
     } else{
-        //detectorElem.className = "confident";
         let pitch = ac;
         let note = noteFromPitch(pitch);
         let detune = centsOffFromPitch(pitch, note);
@@ -288,9 +297,6 @@ function updatePitch(){
         if(needle) needle.style.transform = `rotate(${centsToAngle(detune)}deg)`;
         if(colorBox) colorBox.style.background = colorForCents(Math.abs(detune));
         updateArcTicks(detune);
-
-	 	if (pitchElem) pitchElem.innerText = Math.round( pitch ) ;
-		if (noteElem) noteElem.innerHTML = noteStrings[note%12];
         
         if (detuneAmount) {
             if (detune === 0) {
@@ -310,9 +316,9 @@ function updatePitch(){
                     detuneElem.className = "sharp";
             }
         }
-          
-		var noteGuitar = guitarNoteSearch( pitch );
-		noteMatch.innerHTML = noteChartString[noteGuitar];
+        noteMatch.innerHTML = noteChartString[Gnote];
+		var noteOffsetVar = guitarNoteSearch( pitch );
+		noteOffset.innerHTML = Math.floor(noteOffsetVar);
 	}
 
 	if (!window.requestAnimationFrame)

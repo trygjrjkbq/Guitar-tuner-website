@@ -29,9 +29,13 @@ form{
     left: 0;
     right: 0;
 }
-
 main {
     flex: 1;
+    align-content: center;
+}
+.siteContent{
+    display: flex;
+    justify-content: space-between;
 }
 footer {
     background-color: rgb(95, 8, 8);
@@ -63,9 +67,9 @@ footer {
 }
 .notebox{
     position: relative;
-    top: 150px;
     max-width: 400px;
-    margin: auto;
+    margin-right: 50px;
+    margin-left: auto;
     overflow: hidden;
     align-items: center;
     align-content: center;
@@ -179,4 +183,58 @@ input:checked {
 
 .navbar a:hover{
     background-color: rgb(41, 41, 41);
+}
+
+.slider{
+    width:200px;
+    border-radius: 6px;
+    background-color: lightslategray;
+}
+.slider::-webkit-slider-thumb {
+         -webkit-appearance: none;
+         appearance:none;
+         width: 15px;
+         height: 15px;
+        border-radius: 15px;
+         background-color: rgb(68, 68, 175);
+}
+.confident{
+    position: relative;
+    max-width: 400px;
+    margin: auto;
+    overflow: hidden;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    background-color: grey;
+    border: 3px solid black;
+    border-radius: 30px;
+    padding: 10px;
+}
+.vague{
+    position: relative;
+    max-width: 400px;
+    margin: auto;
+    overflow: hidden;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    background-color: grey;
+    border: 3px solid black;
+    border-radius: 30px;
+    padding: 10px;
+}
+.slidecontainer{
+    position: relative;
+    max-width: 400px;
+    margin-left: 50px;
+    margin-top: 0px;
+    overflow: hidden;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    background-color: grey;
+    border: 3px solid black;
+    border-radius: 30px;
+    padding: 10px;
 }

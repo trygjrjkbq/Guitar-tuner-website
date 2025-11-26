@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+            
+        <h1>Components of our tuner</h1>
+            
+        <nav class="navbar">
+            <ul>
+                <a id="lang" href="https://platforma.polsl.pl/rau1/"><img src="images/mini_image_test.jpg"></a>
+            </ul>
+            <ul id = "u2">
+                <li><a id="NavRight" href="website.html">Home Page</a></li>
+                <li><a href="https://platforma.polsl.pl/rau1/">PZE site</a></li>
+                <li><a href="components.html">Our components</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a id="NavLeft" href="https://lemon.aei.polsl.pl/tiwordpress2025/su52/">Contact Us</a></li>
+            </ul>
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        <div class="space"></div>
+        <div class="listComponent">
+            <div class="containerComponent">
+                <img src="images/ESP.jpg" alt="ESP32" class="imgComponent">
+                <h3 class="nameComponent"><a href="https://www.espressif.com/en/products/socs/esp32">Microcontroler ESP32</a></h3>
+                <p class="infoComponent">The ESP-WROOM-32 microcontroller controls our tuner. It receives the signal from the microphone, calculates the correct frequency, and sends the information to the display. It also includes WiFi and Bluetooth modules to connect to the webpage. The microcontroller has 30 GPIO pins, which makes it easier to connect other components.</p>
+            </div>
+            
+            <div class="containerComponent">
+                <img src="images/Display.png" alt="LCD" class="imgComponent">
+                <h3 class="nameComponent"><a href="https://www.electronics-lab.com/project/using-st7735-1-8-color-tft-display-arduino/">Display TFT LCD ST7735</a></h3>
+                <p class="infoComponent">The ST7735 display is 1.8 inches in size and has a resolution of 128 × 160 pixels. It can show different colors and shapes in a very readable and attractive way. The display requires a 3.3 V power supply, which is perfect for our microcontroller.</p>
+            </div>
+            
+            <div class="containerComponent">
+                <img src="images/Microphone.jpg" alt="Microphone" class="imgComponent">
+                <h3 class="nameComponent"><a href="https://lastminuteengineers.com/max4466-arduino-tutorial/">Microphone MAX4466</a></h3>
+                <p class="infoComponent">Our microphone requires a supply voltage between 2.4 V and 5.5 V, which is suitable because the ESP provides 3.3 V to the MAX4466. The microphone amplifier has a Power Supply Rejection Ratio of 112 dB, meaning the signal experiences less distortion from power supply better.</p>
+            </div>
+        </div>
+
+
+    
+    
+    </main>
+    <br>
+    <footer style="background-color: rgb(95, 8, 8)">
+        <hr>
+        Authors: Filip Duda and Jakub Garus</br>
+        &copy; 2025 copyright reserved<br>
+        <small><a href="mailto:Ja@fake.com">Ja@fake.com</a>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
+

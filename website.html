@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
     <title>My Website</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -32,7 +31,7 @@
             <h2>Guitar Tuner</h2>
             <p>Welcome to our guitar tuner website, currently still in development. <br> When finished, this page will house a widget to help with tuning guitars. </p>
         </div>
-
+<div class="siteContent">
         <div class="notebox">
             <input type="radio" id="enotecheck" name="note"class="buttonstyle">
                 <label for="enotecheck">E low</label>
@@ -50,15 +49,21 @@
                 <button type="play" id="soundtest" class="buttonstyleplay">Play sound</button><br><br>
                 <p id="soundresponse"></p><br>
         </div>
-
-<button onclick="toggleLiveInput()">Start</button>
-
+<br>
+<div class="slidecontainer">
+    <input type="range" min="1" max="10" value="3" class="slider" id="slider">
+    <p>Value: <span id="sliderValue"></span></p>
+    <button onclick="updateBufferSize()">Set sample buffer size</button><br><br><br>
+</div>
 <div id="detector" class="confident">
-<div class="pitch"><span id="pitch">440</span>Hz</div>
+<button onclick="toggleLiveInput()">Start</button>
+<div class="noteMatch">Closest guitar note: <span id="noteMatch">--</span></div>
+<div class="noteOffset">Offset from note by: <span id="noteOffset">--</span> Hz.</div><br>
+<div class="pitch">Sound information:<br><span id="pitch">440</span>Hz</div>
 <div class="note"><span id="note">A</span></div>   
 <canvas id="output" width="300" height="42"></canvas>
 <div id="detune" class=""><span id="detune_amt">--</span><span id="flat">cents &#9837;</span><span id="sharp">cents &#9839;</span></div>
-
+</div>
 
     </main>
     <br>

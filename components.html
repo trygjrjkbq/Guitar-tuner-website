@@ -13,7 +13,7 @@
             
         <nav class="navbar">
             <ul>
-                <div class="lang" id="lang" onclick="langSwitchBool()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
+                <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
             </ul>
             <ul id = "u2">
                 <li><a id="Nav1" href="website.html">Home Page</a></li>
@@ -32,13 +32,13 @@
             <div class="containerComponent">
                 <img src="images/ESP.jpg" alt="ESP32" class="imgComponent">
                 <h3 class="nameComponent" id="nameComponent1"><a href="https://www.espressif.com/en/products/socs/esp32">Microcontroler ESP32</a></h3>
-                <p class="infoComponent" id="infoComponent1">The ESP-WROOM-32 microcontroller controls our tuner. It receives the signal from the microphone, calculates the correct frequency, and sends the information to the display. It also includes WiFi and Bluetooth modules to connect to the webpage. The microcontroller has 30 GPIO pins, which makes it easier to connect other components.</p>
+                <p class="infoComponent" id="infoComponent1">The ESP-WROOM-32 microcontroller controls the entire behavior of our tuner. It receives the signal from the microphone, calculates the correct frequency, and sends the information to the display. It also includes WiFi and Bluetooth modules as well as 30 GPIO pins, which makes it easier to connect other components.</p>
             </div>
             
             <div class="containerComponent">
                 <img src="images/Display.png" alt="LCD" class="imgComponent">
                 <h3 class="nameComponent" id="nameComponent2"><a href="https://www.electronics-lab.com/project/using-st7735-1-8-color-tft-display-arduino/">Display TFT LCD ST7735</a></h3>
-                <p class="infoComponent"id="infoComponent2">The ST7735 display is 1.8 inches in size and has a resolution of 128 × 160 pixels. It can show different colors and shapes in a very readable and attractive way. The display requires a 3.3 V power supply, which is perfect for our microcontroller.</p>
+                <p class="infoComponent"id="infoComponent2">The ST7735 display is 1.8 inches in size and has a resolution of 128×160 pixels. It can show different colors and shapes in a very readable and attractive way. The display requires a 3.3 V power supply, which is perfect for our microcontroller.</p>
             </div>
             
             <div class="containerComponent">
@@ -59,9 +59,9 @@
         &copy; 2025 copyright reserved<br>
         <small><a href="mailto:Ja@fake.com">Ja@fake.com</a>
     </footer>
-
-    <script src="index.js"></script>
     <script src="language.js"></script>
+    <script src="langpolish.js"></script>
+    <script src="index.js"></script> 
 </body>
 </html>
 

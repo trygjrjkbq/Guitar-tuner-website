@@ -8,18 +8,18 @@
 <body>
     <header class="header">
             
-        <h1>Welcome to our guitar tuner website</h1>
+        <h1 id="welcomeHeader">Welcome to our guitar tuner website</h1>
             
         <nav class="navbar">
             <ul>
-                <div class="lang" id="lang" onclick="langSwitchBool()"><img id="langIcon" src="images/LanguageEnglish.jpg"></div>
+                <div class="lang" id="lang" onclick="langSwitchBool()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
             </ul>
             <ul id = "u2">
-                <li><a id="NavRight" href="website.html">Home Page</a></li>
-                <li><a href="https://platforma.polsl.pl/rau1/">PZE site</a></li>
-                <li><a href="components.html">Our components</a></li>
-                <li><a href="tutorials.html">Tutorials</a></li>
-                <li><a id="NavLeft" href="https://lemon.aei.polsl.pl/tiwordpress2025/su52/">Contact Us</a></li>
+                <li><a id="Nav1" href="website.html">Home Page</a></li>
+                <li><a id="Nav2"href="https://platforma.polsl.pl/rau1/">PZE site</a></li>
+                <li><a id="Nav3"href="components.html">Used components</a></li>
+                <li><a id="Nav4"href="tutorials.html">Tutorials</a></li>
+                <li><a id="Nav5" href="https://lemon.aei.polsl.pl/tiwordpress2025/su52/">Contact Us</a></li>
             </ul>
         </nav>
         <hr>
@@ -27,14 +27,14 @@
 
     <main>
         <div class="space"></div>
-        <div class="info">
+        <div class="info" id="info">
             <h2>Guitar Tuner</h2>
             <p>Welcome to our guitar tuner website, currently still in development. <br> When finished, this page will house a widget to help with tuning guitars. </p>
         </div>
 
         <div class="notebox">
             <input type="radio" id="enotecheck" name="note"class="buttonstyle">
-                <label for="enotecheck">E low</label>
+                <label for="enotecheck">E2</label>
                 <input type="radio" id="anotecheck" name="note"class="buttonstyle">
                 <label for="anotecheck">A</label>
                 <input type="radio" id="dnotecheck" name="note"class="buttonstyle">
@@ -44,7 +44,7 @@
                 <input type="radio" id="bnotecheck" name="note"class="buttonstyle">
                 <label for="bnotecheck">B</label>
                 <input type="radio" id="ehighnotecheck" name="note" class="buttonstyle">
-                <label for="ehighnotecheck">E high</label><br><br>
+                <label for="ehighnotecheck">E4</label><br><br>
 
                 <button type="play" id="soundtest" class="buttonstyleplay">Play sound</button><br><br>
                 <p id="soundresponse"></p><br>
@@ -56,17 +56,17 @@
     <button onclick="toggleLiveInput()">Start</button><br>
     <div class="slidecontainer">
         <input type="range" min="1" max="10" value="3" class="slider" id="slider">
-        <p>Value: <span id="sliderValue">4096</span></p>
-        <button onclick="updateBufferSize()">Set sample buffer size</button>
+        <p><div id="sliderLabel">Value: </div><span id="sliderValue">4096</span></p>
+        <button onclick="updateBufferSize()" id="sampleBufferButton">Set sample buffer size</button>
     </div>
 
 
 <div class="tuner-left">
     <div class="freq" id="freqDisplay">-- Hz</div>
     <div class="note bignote"><span id="note">-</span></div>
-    <div class="noteMatch">Closest guitar note: <span id="noteMatch">--</span></div>
-    <div class="cents">Offset: <span id="detune_amt">--</span> cent</div>
-    <div class="noteOffset">Offset from note by: <span id="noteOffset">--</span> Hz.</div><br>
+    <div class="noteMatch"><span id="noteClosestNote">Closest guitar note: </span><span id="noteMatch">--</span></div>
+    <div class="cents"><span id="noteOffsetCentLabel">Offset: </span><span id="detune_amt">--</span> cent</div>
+    <div class="noteOffset"><span id="noteOffsetLabel">Offset from note by: </span><span id="noteOffset">--</span> Hz.</div><br>
     <div class="controls">
         <div id="colorBox" class="color-box" title="Jak blisko jesteś"></div>
     </div>
@@ -85,9 +85,8 @@
   <!-- canvas z waveform (jak miałeś wcześniej) -->
   <canvas id="output" width="400" height="42" style="margin-top:12px;"></canvas>
 </div>
-
-
-
+    <script src="language.js"></script>
+    <script src="index.js"></script>
     </main>
     <br>
     <footer style="background-color: rgb(95, 8, 8)">
@@ -96,8 +95,6 @@
         &copy; 2025 copyright reserved<br>
         <small><a href="mailto:Ja@fake.com">Ja@fake.com</a>
     </footer>
-
-    <script src="index.js"></script>
 </body>
 </html>
 

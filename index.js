@@ -26,29 +26,6 @@ playsound.onclick = function() {
     else soundresponse.textContent = "No note selected";
 }
 
-////////////////////////////////////////////////////////////////////
-//////////////Language control//////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-
-var langSwitch = true;
-
-var langimg = document.createElement("langimg");
-var src = document.getElementById("lang");
-
-
-function langSwitchBool() {
-if (langSwitch)
-{
-langSwitch = false;
-document.getElementById("langIcon").src="images/LanguagePolish.jpg";
-}
-else
-{
-langSwitch = true;
-document.getElementById("langIcon").src="images/LanguageEnglish.jpg";
-}
-}
-
 
 ////////////////////////////////////////////////////////////////////
 //////////////////Pitch detector code below/////////////////////////
@@ -84,6 +61,7 @@ const needle = document.getElementById('needle');
 
 //Variables connected to the website
 window.onload = function() {
+    englishSwitch();
 	audioContext = new AudioContext();
 	detectorElem = document.getElementById( "detector" );
 	canvasElem = document.getElementById( "output" );

@@ -1,0 +1,141 @@
+<?php
+    include("database.php");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+            
+        <h1 id="welcomeHeader">Welcome to our guitar tuner website</h1>
+            
+        <nav class="navbar">
+            <ul>
+                <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
+            </ul>
+            <ul id = "u2" class="u2">
+                <li><a id="Nav1" href="website.html">Home Page</a></li>
+                <li><a id="Nav2"href="https://platforma.polsl.pl/rau1/">PZE site</a></li>
+                <li><a id="Nav3"href="components.html">Used components</a></li>
+                <li><a id="Nav4"href="tutorials.html">Tutorials</a></li>
+                <li><a id="Nav5" href="https://lemon.aei.polsl.pl/tiwordpress2025/su52/">Contact Us</a></li>
+            </ul>
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        <div class="info" id="info">
+            <h2>Guitar Tuner</h2>
+            <p>Welcome to our guitar tuner website, currently still in development. <br> When finished, this page will house a widget to help with tuning guitars. </p>
+        </div>
+        <br>
+
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+            <h3>Log in!</h3>
+            username:<br>
+            <input class="logIns" type="text" name="username"><br><br>
+            password:<br>
+            <input class="logIns" type="password" name="password"><br><br>
+            <input id="logBtn" class="buttonstyleplay" type="submit" name="submit" value="register"><br><br>
+
+            <?php
+            if($_SERVER["REQUEST_METHOD"] == "POST"){
+                $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
+                $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+
+                if(empty($username)){
+                    echo"Please enter a username";
+                }
+                elseif(empty($password)){
+                    echo"Please enter a password";
+                }
+                else{
+                    $hash = password_hash($password, PASSWORD_DEFAULT);
+                    $sql = "INSERT INTO users (user, password)
+                            VALUES ('$username', '$hash')";
+                    
+                    try{
+                        mysqli_query($conn, $sql);
+                    echo"You are now registered!";
+                    }
+                    catch(mysqli_sql_exception){
+                        echo"That username is taken";
+                    }
+                }
+            }
+
+            mysqli_close($conn);
+        ?>
+        </form>
+
+
+
+        <div class="notebox">
+            <input type="radio" id="enotecheck" name="note"class="buttonstyle">
+                <label for="enotecheck">E2</label>
+                <input type="radio" id="anotecheck" name="note"class="buttonstyle">
+                <label for="anotecheck">A</label>
+                <input type="radio" id="dnotecheck" name="note"class="buttonstyle">
+                <label for="dnotecheck">D</label>
+                <input type="radio" id="gnotecheck" name="note"class="buttonstyle">
+                <label for="gnotecheck">G</label>
+                <input type="radio" id="bnotecheck" name="note"class="buttonstyle">
+                <label for="bnotecheck">B</label>
+                <input type="radio" id="ehighnotecheck" name="note" class="buttonstyle">
+                <label for="ehighnotecheck">E4</label><br><br>
+
+                <button type="play" id="soundtest" class="buttonstyleplay">Play sound</button><br><br>
+                <p id="soundresponse"></p><br>
+        </div>
+<br><br><br><br><br><br><br><br><br><br>
+
+<div id="detector" class="confident tuner-container">
+
+    <button onclick="toggleLiveInput()">Start</button><br>
+    <div class="slidecontainer">
+        <input type="range" min="1" max="10" value="3" class="slider" id="slider">
+        <p><div id="sliderLabel">Value: </div><span id="sliderValue">4096</span></p>
+        <button onclick="updateBufferSize()" id="sampleBufferButton">Set sample buffer size</button>
+    </div>
+
+
+<div class="tuner-left">
+    <div class="freq" id="freqDisplay">-- Hz</div>
+    <div class="note bignote"><span id="note">-</span></div>
+    <div class="noteMatch"><span id="noteClosestNote">Closest guitar note: </span><span id="noteMatch">--</span></div>
+    <div class="cents"><span id="noteOffsetCentLabel">Offset: </span><span id="detune_amt">--</span> cent</div>
+    <div class="noteOffset"><span id="noteOffsetLabel">Offset from note by: </span><span id="noteOffset">--</span> Hz.</div><br>
+    <div class="controls">
+        <div id="colorBox" class="color-box" title="Jak blisko jesteś"></div>
+    </div>
+</div>
+
+  <div class="tuner-right">
+    <div id="meter" class="meter">
+      <div id="needle" class="needle">
+        <div class="pivot"></div>
+      </div>
+    </div>
+
+
+  <canvas id="output" width="400" height="42" style="margin-top:12px;"></canvas>
+</div>
+
+    <script src="language.js"></script>
+    <script src="langpolish.js"></script>
+    <script src="index.js"></script>
+    </main>
+    <br>
+    <footer style="background-color: rgb(95, 8, 8)">
+        <hr>
+        Authors: Filip Duda and Jakub Garus</br>
+        &copy; 2025 copyright reserved<br>
+        <small><a href="mailto:Ja@fake.com">Ja@fake.com</a>
+    </footer>
+</body>
+</html>

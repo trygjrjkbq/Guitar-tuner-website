@@ -150,11 +150,41 @@ function guitarNoteSearch( frequency ){
 			Gnote = o;
 		}
 	}
-	console.log(noteTemp);
+	//console.log(noteTemp);
 	return noteTemp;
 }
 
 function autoCorrelate(buf, sampleRate) {
+    var correlateAvg = 0;
+    var correlateTemp = 0;
+    var correlateError = 0;
+    for (let u = 0; u<128; u++)
+    {
+        correlateTemp = autoCorrelateStep(buf, sampleRate);
+        //console.log("ac start");
+        if (correlateTemp==-1)
+        {
+            correlateError++;
+           // console.log("correlate error");
+            if(correlateError >= 6)
+            {
+                return -1;
+            }
+        }
+        else
+        {
+            console.log("correlate calc");
+            console.log(correlateAvg);
+            correlateAvg = correlateAvg + correlateTemp;
+        }
+    }
+        correlateAvg = correlateAvg/(128-correlateError);
+        //console.log(correlateAvg);
+        return correlateAvg;
+}
+
+
+function autoCorrelateStep(buf, sampleRate) {
     const SIZE = buf.length;
     const MAX_SAMPLES = Math.floor(SIZE/2);
     let best_offset = -1;

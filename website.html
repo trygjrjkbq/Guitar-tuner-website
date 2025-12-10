@@ -1,3 +1,6 @@
+<?php
+    include("database.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +33,47 @@
             <h2>Guitar Tuner</h2>
             <p>Welcome to our guitar tuner website, currently still in development. <br> When finished, this page will house a widget to help with tuning guitars. </p>
         </div>
+        <br>
+
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+            <h3>Log in!</h3>
+            username:<br>
+            <input class="logIns" type="text" name="username"><br><br>
+            password:<br>
+            <input class="logIns" type="password" name="password"><br><br>
+            <input id="logBtn" class="buttonstyleplay" type="submit" name="submit" value="register"><br><br>
+
+            <?php
+            if($_SERVER["REQUEST_METHOD"] == "POST"){
+                $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
+                $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+
+                if(empty($username)){
+                    echo"Please enter a username";
+                }
+                elseif(empty($password)){
+                    echo"Please enter a password";
+                }
+                else{
+                    $hash = password_hash($password, PASSWORD_DEFAULT);
+                    $sql = "INSERT INTO users (user, password)
+                            VALUES ('$username', '$hash')";
+                    
+                    try{
+                        mysqli_query($conn, $sql);
+                    echo"You are now registered!";
+                    }
+                    catch(mysqli_sql_exception){
+                        echo"That username is taken";
+                    }
+                }
+            }
+
+            mysqli_close($conn);
+        ?>
+        </form>
+
+
 
         <div class="notebox">
             <input type="radio" id="enotecheck" name="note"class="buttonstyle">
@@ -71,19 +115,17 @@
     </div>
 </div>
 
-  <!-- Prawa kolumna: tarcza z igłą i pasek nut -->
   <div class="tuner-right">
     <div id="meter" class="meter">
-      <!-- igła -->
       <div id="needle" class="needle">
         <div class="pivot"></div>
       </div>
-      <!-- miejsca na kropki łuku (wygenerujemy je JS-em) -->
     </div>
 
-  <!-- canvas z waveform (jak miałeś wcześniej) -->
+
   <canvas id="output" width="400" height="42" style="margin-top:12px;"></canvas>
 </div>
+
     <script src="language.js"></script>
     <script src="langpolish.js"></script>
     <script src="index.js"></script>
@@ -97,4 +139,3 @@
     </footer>
 </body>
 </html>
-

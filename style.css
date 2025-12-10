@@ -76,6 +76,9 @@ footer {
 
 .buttonstyle{
     background-color: white;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
 }
 .buttonstyleplay{
     background-color: rgb(87, 87, 214);
@@ -93,10 +96,6 @@ button:focus {
 }
 input {
   appearance: none;
-
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
 
   border: 2px solid black;
   transition: 0.2s all linear;
@@ -296,16 +295,13 @@ input:checked {
 .tuner-left { flex: 1; text-align:center; padding:6px 12px; }
 .tuner-right { width:420px; padding:6px 12px; }
 
-/* Wyświetlanie częstotliwości i nuty */
 .freq { font-size:28px; font-weight:700; }
 .bignote { font-size:40px; font-weight:800; margin-top:6px; }
 .cents { font-size:16px; margin-top:6px; color:#ffd; }
 
-/* Kontrolki */
 .controls { margin-top:10px; display:flex; align-items:center; justify-content:center; gap:12px; }
 .color-box { width:22px; height:22px; border-radius:6px; border:2px solid rgba(255,255,255,0.15); background:#888; }
 
-/* Tarcza igły */
 .meter {
   position:relative;
   height:200px;
@@ -320,28 +316,25 @@ input:checked {
   background: rgba(0,0,0,0.25);
   border: 2px solid rgba(255,255,255,0.06);
 }
-/* żółta */
+
 #meter .arc-tick.activeY {
   background: #f0d33a;
   box-shadow: 0 0 6px rgba(240,211,58,0.9);
   transform: scale(1.15);
 }
 
-/* czerwona */
 #meter .arc-tick.activeR {
   background: #c84b4b;
   box-shadow: 0 0 6px rgba(200,75,75,0.9);
   transform: scale(1.15);
 }
 
-/* zielona — idealny dźwięk (tylko środkowa!) */
 #meter .arc-tick.ok {
   background: #2aa552;
   box-shadow: 0 0 8px rgba(42,165,82,0.95);
   transform: scale(1.25);
 }
 
-/* Igła */
 .needle {
   width:4px;
   height:110px;
@@ -360,7 +353,6 @@ input:checked {
   border:2px solid rgba(0,0,0,0.2);
 }
 
-/* kropki łuku (pozycjonowane JS-em przez transform rotate+translateY) */
 .arc-tick {
   --size:10px;
   width:var(--size);
@@ -378,7 +370,6 @@ input:checked {
 .arc-tick.active { background: #c84b4b; transform: scale(1.15); }
 .arc-tick.ok { background: #2aa552; transform: scale(1.25); }
 
-/* responsywność: zmniejszamy elementy przy wąskiej szerokości */
 @media (max-width:720px){
   .tuner-container { flex-direction:column; gap:8px; padding:10px; }
   .tuner-right { width:100%; }
@@ -421,4 +412,11 @@ input:checked {
   text-align: center;
   margin-top: 20px;
   border-radius: 10px;
+}
+
+.logIns{
+  width: 200px;
+}
+#logBtn:hover{
+    background-color: rgb(68, 68, 175);
 }

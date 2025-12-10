@@ -80,6 +80,7 @@ window.onload = function() {
     slider.oninput = function() {
 	var sliderVal = slider.value - 1;
 	bufSize = 1024*2**sliderVal;
+    if (result) result.innerHTML = bufSize;
 }
 
 function updateBufferSize(){
@@ -194,7 +195,6 @@ function autoCorrelate(buf, sampleRate) {
     return -1;
 }
 
-// --- Igła i kolor ---
 function centsToAngle(cents){
     const maxCents = 50;
     const maxAngle = 80;
@@ -208,7 +208,7 @@ function colorForCents(absCents){
     return '#c84b4b';
 }
 
-// --- Kropki łuku ---
+// dots
 function createArcTicks(count=17, radius=15, startAngle=-80, endAngle=80){
     const meter = document.getElementById('meter');
     if(!meter) return;

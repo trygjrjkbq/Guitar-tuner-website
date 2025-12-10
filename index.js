@@ -1,6 +1,4 @@
 // Guitar note player
-const playsound = document.getElementById("soundtest");
-
 const enote = document.getElementById("enotecheck");
 const anote = document.getElementById("anotecheck");
 const dnote = document.getElementById("dnotecheck");
@@ -8,6 +6,7 @@ const gnote = document.getElementById("gnotecheck");
 const bnote = document.getElementById("bnotecheck");
 const ehighnote = document.getElementById("ehighnotecheck");
 
+const playsound = document.getElementById("soundtest");
 const soundresponse = document.getElementById("soundresponse");
 
 const audio1 = new Audio('notes/e2.mp3');
@@ -71,7 +70,6 @@ window.onload = function() {
 	detuneElem = document.getElementById( "detune" );
 	detuneAmount = document.getElementById( "detune_amt" );
 	slider = document.getElementById("slider");
-    sliderAvg = document.getElementById("sliderAvg");
     result = document.getElementById("sliderValue");
 	noteMatch = document.getElementById("noteMatch");
     noteOffset = document.getElementById("noteOffset");
@@ -82,6 +80,7 @@ window.onload = function() {
     slider.oninput = function() {
 	var sliderVal = slider.value - 1;
 	bufSize = 1024*2**sliderVal;
+    if (result) result.innerHTML = bufSize;
 }
 
 function updateBufferSize(){
@@ -160,6 +159,7 @@ function autoCorrelate(buf, sampleRate) {
     var correlateAvg = 0;
     var correlateTemp = 0;
     var correlateError = 0;
+    // Taking an average to prevent jittery movement and instability 
     for (let u = 0; u<128; u++)
     {
         correlateTemp = autoCorrelateStep(buf, sampleRate);
@@ -226,7 +226,7 @@ function autoCorrelateStep(buf, sampleRate) {
     return -1;
 }
 
-// --- Igła i kolor ---
+// Converting pitch to needle angle
 function centsToAngle(cents){
     const maxCents = 50;
     const maxAngle = 80;
@@ -240,7 +240,7 @@ function colorForCents(absCents){
     return '#c84b4b';
 }
 
-// --- Kropki łuku ---
+// drawing dots
 function createArcTicks(count=17, radius=15, startAngle=-80, endAngle=80){
     const meter = document.getElementById('meter');
     if(!meter) return;
@@ -255,6 +255,7 @@ function createArcTicks(count=17, radius=15, startAngle=-80, endAngle=80){
         meter.appendChild(t);
     }
 }
+
 
 function updateArcTicks(detune, count=17, maxCents=50){
     const meter = document.getElementById('meter');
@@ -282,6 +283,7 @@ function updateArcTicks(detune, count=17, maxCents=50){
     }
 }
 
+// updating the detector elements on diplay
 function updatePitch(){
     if(!analyser) return requestAnimationFrame(updatePitch);
     analyser.getFloatTimeDomainData(buf);
@@ -303,7 +305,7 @@ function updatePitch(){
         let detune = centsOffFromPitch(pitch, note);
 
         if(freqDisplay) freqDisplay.textContent = pitch.toFixed(1)+' Hz';
-        if (noteElem) noteElem.innerHTML = noteStrings[note%12];
+
         if(needle) needle.style.transform = `rotate(${centsToAngle(detune)}deg)`;
         if(colorBox) colorBox.style.background = colorForCents(Math.abs(detune));
         updateArcTicks(detune);

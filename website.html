@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    include("database.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,13 +11,21 @@
 </head>
 <body>
     <header class="header">
-        <h1 id="welcomeHeader">Welcome to guitar tuner website by Filip Duda and Jakub Garus</h1>    
+            
+        <h1 id="welcomeHeader">Welcome to our guitar tuner website</h1>
+            
         <nav class="navbar">
             <ul>
                 <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
+                <li><?php if (!empty($_SESSION['user_id'])): ?>
+                        <a id="Log" href="logout.php">Log out</a>
+                    <?php else: ?>
+                        <a id="Log" href="LogIn.php">Log in!</a>
+                    <?php endif; ?>
+                </li>
             </ul>
             <ul id = "u2" class="u2">
-                <li><a id="Nav1" href="website.html">Home page</a></li>
+                <li><a id="Nav1" href="website.html">Home Page</a></li>
                 <li><a id="Nav2"href="https://platforma.polsl.pl/rau1/">PZE site</a></li>
                 <li><a id="Nav3"href="components.html">Used components</a></li>
                 <li><a id="Nav4"href="tutorials.html">Tutorials</a></li>
@@ -24,9 +36,12 @@
     </header>
 
     <main>
+        
         <div class="info" id="info">
-            <p> Welocme to our guitar tuner project, the website is currenlty still in development, but most parts are already functional. We will gladly accept any and all feedback :)</p>
+            <h2>Guitar Tuner</h2>
+            <p>Welcome to our guitar tuner website, currently still in development. <br> When finished, this page will house a widget to help with tuning guitars. </p>
         </div>
+        <br>
 
         <div class="notebox">
             <input type="radio" id="enotecheck" name="note"class="buttonstyle">
@@ -45,7 +60,8 @@
                 <button type="play" id="soundtest" class="buttonstyleplay">Play sound</button><br><br>
                 <p id="soundresponse"></p><br>
         </div>
-<div id="detector" class="tuner-container">
+
+<div id="detector" class="confident tuner-container">
 
     <button class="tunerToggle" onclick="toggleLiveInput()">Start</button><br>
     <div class="slidecontainer">
@@ -76,9 +92,52 @@
       <!-- miejsca na kropki łuku (wygenerujemy je JS-em) -->
     </div>
 
-  <!-- canvas z waveform (jak miałeś wcześniej) -->
+
   <canvas id="output" width="400" height="42" style="margin-top:12px;"></canvas>
 </div>
+</div>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_text'])) {
+    if (!empty($_SESSION['user_id'])) {
+        $text = trim($_POST['comment_text']);
+        if ($text !== '') {
+            $stmt = $conn->prepare("INSERT INTO comments (user_id, content) VALUES (?, ?)");
+            $uid = $_SESSION['user_id'];
+            $stmt->bind_param("is", $uid, $text);
+            $stmt->execute();
+            $stmt->close();
+            header("Location: " . $_SERVER['PHP_SELF']); // odświeżenie
+            exit;
+        }
+    } else {
+        $comment_feedback = "You need to be logged in to write comments.";
+    }
+}
+
+$comments = [];
+$res = $conn->query("SELECT c.content, c.created_at, u.username FROM comments c JOIN users u ON c.user_id = u.id ORDER BY c.created_at DESC");
+while ($row = $res->fetch_assoc()) $comments[] = $row;
+?>
+<div id="comments">
+  <h3>Comments</h3>
+  <?php if(!empty($_SESSION['user_id'])): ?>
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <textarea name="comment_text" rows="3" cols="40"></textarea><br>
+      <button type="submit">Write a comment</button>
+    </form>
+  <?php else: ?>
+    <p><a href="LogIn.php?return=<?php echo urlencode($_SERVER['PHP_SELF']); ?>">Log in</a> to write a comment.</p>
+  <?php endif; ?>
+  <p><?php echo $comment_feedback ?? ''; ?></p>
+
+  <ul>
+    <?php foreach ($comments as $c): ?>
+      <li><strong><?php echo htmlspecialchars($c['username']); ?></strong> (<?php echo $c['created_at']; ?>):<br>
+          <?php echo nl2br(htmlspecialchars($c['content'])); ?></li>
+    <?php endforeach; ?>
+  </ul>
+
     <script src="language.js"></script>
     <script src="langpolish.js"></script>
     <script src="index.js"></script>
@@ -92,4 +151,3 @@
     </footer>
 </body>
 </html>
-

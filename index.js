@@ -1,4 +1,6 @@
 // Guitar note player
+const playsound = document.getElementById("soundtest");
+
 const enote = document.getElementById("enotecheck");
 const anote = document.getElementById("anotecheck");
 const dnote = document.getElementById("dnotecheck");
@@ -6,7 +8,6 @@ const gnote = document.getElementById("gnotecheck");
 const bnote = document.getElementById("bnotecheck");
 const ehighnote = document.getElementById("ehighnotecheck");
 
-const playsound = document.getElementById("soundtest");
 const soundresponse = document.getElementById("soundresponse");
 
 const audio1 = new Audio('notes/e2.mp3');
@@ -70,6 +71,7 @@ window.onload = function() {
 	detuneElem = document.getElementById( "detune" );
 	detuneAmount = document.getElementById( "detune_amt" );
 	slider = document.getElementById("slider");
+    sliderAvg = document.getElementById("sliderAvg");
     result = document.getElementById("sliderValue");
 	noteMatch = document.getElementById("noteMatch");
     noteOffset = document.getElementById("noteOffset");
@@ -150,11 +152,41 @@ function guitarNoteSearch( frequency ){
 			Gnote = o;
 		}
 	}
-	console.log(noteTemp);
+	//console.log(noteTemp);
 	return noteTemp;
 }
 
 function autoCorrelate(buf, sampleRate) {
+    var correlateAvg = 0;
+    var correlateTemp = 0;
+    var correlateError = 0;
+    for (let u = 0; u<128; u++)
+    {
+        correlateTemp = autoCorrelateStep(buf, sampleRate);
+        //console.log("ac start");
+        if (correlateTemp==-1)
+        {
+            correlateError++;
+           // console.log("correlate error");
+            if(correlateError >= 6)
+            {
+                return -1;
+            }
+        }
+        else
+        {
+            console.log("correlate calc");
+            console.log(correlateAvg);
+            correlateAvg = correlateAvg + correlateTemp;
+        }
+    }
+        correlateAvg = correlateAvg/(128-correlateError);
+        //console.log(correlateAvg);
+        return correlateAvg;
+}
+
+
+function autoCorrelateStep(buf, sampleRate) {
     const SIZE = buf.length;
     const MAX_SAMPLES = Math.floor(SIZE/2);
     let best_offset = -1;
@@ -271,7 +303,7 @@ function updatePitch(){
         let detune = centsOffFromPitch(pitch, note);
 
         if(freqDisplay) freqDisplay.textContent = pitch.toFixed(1)+' Hz';
-
+        if (noteElem) noteElem.innerHTML = noteStrings[note%12];
         if(needle) needle.style.transform = `rotate(${centsToAngle(detune)}deg)`;
         if(colorBox) colorBox.style.background = colorForCents(Math.abs(detune));
         updateArcTicks(detune);

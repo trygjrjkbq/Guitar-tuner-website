@@ -5,13 +5,6 @@
 function polishSwitch(){
 ///////////////////////Info and description/////////////////////////
 
-if (document.getElementById("welcomeHeader") != null)
-{
-    document.getElementById("welcomeHeader").textContent="Witamy na stronie tunera do gitary, stworzoną przez Filipa Dudę oraz Jakuba Garusa";
-
-    document.getElementById("info").textContent="Witamy na stronie naszego projektu stroika do gitary. W stanie dzisiejszym prace nad nią jeszcze trwają, jednak większość zawartości jest funkcjonalna\r\n";
-    document.getElementById("info").textContent+="Bylibyśmy wdzięczni za jakiekolwiek wiadomości zwrotne :)";
-
     document.getElementById("Nav1").textContent="Strona główna";
 
     document.getElementById("Nav2").textContent="Strona platformy";
@@ -22,7 +15,14 @@ if (document.getElementById("welcomeHeader") != null)
 
     document.getElementById("Nav5").textContent="Kontakt";
 
-///////////////////////Tuner labels/////////////////////////
+if (document.getElementById("welcomeHeader") != null)
+{
+    /////////////////////////Main page//////////////////////////////////
+
+    document.getElementById("welcomeHeader").textContent="Witamy na stronie tunera do gitary, stworzoną przez Filipa Dudę oraz Jakuba Garusa";
+
+    document.getElementById("info").textContent="Witamy na stronie naszego projektu stroika do gitary. W stanie dzisiejszym prace nad nią jeszcze trwają, jednak większość zawartości jest funkcjonalna\r\n";
+    document.getElementById("info").textContent+="Bylibyśmy wdzięczni za jakiekolwiek wiadomości zwrotne :)";
 
     document.getElementById("soundtest").textContent="Odtwórz dźwięk";
 
@@ -55,4 +55,26 @@ if (document.getElementById("compHeader") != null)
 
     document.getElementById("infoComponent3").textContent="Mikrofon naszego wyboru zasilany jest napięciami między 2.4 V a 5.5 V, co pozwala na zasilenie przez 3.3 V od mikrokontrolera. Wzmacniacz mikrofonu posiada współczynnik odrzucenia wpływu zasilania równy 112 dB, co oznacza, że MAX4466 jest mało podatny na zakłócenia sygnału.";
 }
+
+//////////////////////////Tutorials////////////////////////////////
+
+if (document.getElementById("tutorialHeader") != null)
+{
+    document.getElementById("tutorialHeader").textContent="Tutoriale";
+
+    const tutorialButtons = document.getElementsByClassName("tutorialBtn");
+for (let i = 0; i < tutorialButtons.length; i++) {
+    tutorialButtons[i].textContent = "Zobacz";
+}
+}
+
+if (document.getElementById("tutorialSongHeader") != null)
+{
+    document.getElementById("tutorialSongHeader").textContent="Tutoriale";
+
+    document.getElementById("ogVideo").textContent="Oryginalna piosenka";
+
+    document.getElementById("tutorialVideo").textContent="Film z tutorialem";
+}
+
 }

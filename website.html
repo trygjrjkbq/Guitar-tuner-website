@@ -44,30 +44,34 @@
         <br>
 
         <div class="notebox">
-            <input type="radio" id="enotecheck" name="note"class="buttonstyle">
+            <input type="radio" id="enotecheck" name="note"class="radioStyle">
                 <label for="enotecheck">E2</label>
-                <input type="radio" id="anotecheck" name="note"class="buttonstyle">
+                <input type="radio" id="anotecheck" name="note"class="radioStyle">
                 <label for="anotecheck">A</label>
-                <input type="radio" id="dnotecheck" name="note"class="buttonstyle">
+                <input type="radio" id="dnotecheck" name="note"class="radioStyle">
                 <label for="dnotecheck">D</label>
-                <input type="radio" id="gnotecheck" name="note"class="buttonstyle">
+                <input type="radio" id="gnotecheck" name="note"class="radioStyle">
                 <label for="gnotecheck">G</label>
-                <input type="radio" id="bnotecheck" name="note"class="buttonstyle">
+                <input type="radio" id="bnotecheck" name="note"class="radioStyle">
                 <label for="bnotecheck">B</label>
-                <input type="radio" id="ehighnotecheck" name="note" class="buttonstyle">
+                <input type="radio" id="ehighnotecheck" name="note" class="radioStyle">
                 <label for="ehighnotecheck">E4</label><br><br>
 
                 <button type="play" id="soundtest" class="buttonstyleplay">Play sound</button><br><br>
                 <p id="soundresponse"></p><br>
         </div>
 
-<div id="detector" class="confident tuner-container">
+<div id="detector" class="tuner-container">
 
     <button class="tunerToggle" onclick="toggleLiveInput()">Start</button><br>
     <div class="slidecontainer">
         <input type="range" min="1" max="10" value="3" class="slider" id="slider">
         <p><div id="sliderLabel">Value: </div><span id="sliderValue">4096</span></p>
-        <button onclick="updateBufferSize()" class="bufferSizeSet" id="sampleBufferButton">Set sample buffer size</button>
+        <button onclick="updateBufferSize()" class="buttonStyle" id="sampleBufferButton">Set sample buffer size</button>
+        <br><br>
+        <input type="range" min="1" max="10" value="2" class="slider" id="slider2">
+        <p><div id="sliderLabel">Value: </div><span id="sliderValue2">128</span></p>
+        <button onclick="updateAvgBufferSize()" class="buttonStyle" id="bufferButton">Set averaging buffer size</button>
     </div>
 
 
@@ -122,9 +126,9 @@ while ($row = $res->fetch_assoc()) $comments[] = $row;
 <div id="comments">
   <h3>Comments</h3>
   <?php if(!empty($_SESSION['user_id'])): ?>
-    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-      <textarea name="comment_text" rows="3" cols="40"></textarea><br>
-      <button type="submit">Write a comment</button>
+    <form method="post" class="commentBox" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <textarea class="commentBoxStyle" name="comment_text" rows="3" cols="40"></textarea><br>
+      <button class="buttonStyle" type="submit">Write a comment</button>
     </form>
   <?php else: ?>
     <p><a href="LogIn.php?return=<?php echo urlencode($_SERVER['PHP_SELF']); ?>">Log in</a> to write a comment.</p>

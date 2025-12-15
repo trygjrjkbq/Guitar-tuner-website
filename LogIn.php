@@ -37,7 +37,7 @@ include("database.php");
         </div>
         <br>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form class="loginBox" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h3>Log in!</h3>
             username:<br>
             <input class="logIns" type="text" name="username"><br><br>
@@ -45,8 +45,10 @@ include("database.php");
             <input class="logIns" type="password" name="password"><br><br>
 
             <!-- Two przyciski do wyboru akcji -->
-            <button class="buttonstyleplay" type="submit" name="action" value="register">register</button>
-            <button class="buttonstyleplay" type="submit" name="action" value="login">login</button>
+            <div>
+            <button class="buttonStyle" type="submit" name="action" value="register">register</button>
+            <button class="buttonStyle" type="submit" name="action" value="login">login</button>
+            </div>
             <br><br>
 
             <?php

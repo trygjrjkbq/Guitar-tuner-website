@@ -7,20 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-            
-        <h1>Tutorials</h1>
-            
+    <header class="header">      
+        <h1 id="tutorialSongHeader">Tutorials</h1>        
         <nav class="navbar">
             <ul>
-                <a id="lang" href="https://platforma.polsl.pl/rau1/"><img src="images/mini_image_test.jpg"></a>
+                <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
             </ul>
-            <ul id = "u2">
-                <li><a id="NavRight" href="website.html">Home Page</a></li>
-                <li><a href="https://platforma.polsl.pl/rau1/">PZE site</a></li>
-                <li><a href="components.html">Our components</a></li>
-                <li><a href="tutorials.html">Tutorials</a></li>
-                <li><a id="NavLeft" href="https://lemon.aei.polsl.pl/tiwordpress2025/su52/">Contact Us</a></li>
+            <ul id = "u2" class="u2">
+                <li><a id="Nav1" href="website.html">Home page</a></li>
+                <li><a id="Nav2"href="https://platforma.polsl.pl/rau1/">PZE site</a></li>
+                <li><a id="Nav3"href="components.html">Used components</a></li>
+                <li><a id="Nav4"href="tutorials.html">Tutorials</a></li>
+                <li><a id="Nav5" href="https://lemon.aei.polsl.pl/tiwordpress2025/su52/">Contact Us</a></li>
             </ul>
         </nav>
         <hr>
@@ -127,9 +125,9 @@ We were gettin' high
         </div>
 
         <div class="songColumns" id="songVideo">
-            <h3>Original video</h3>
+            <h3 id="ogVideo">Original video</h3>
                 <iframe width="427" height="240" src="https://www.youtube.com/embed/tI-5uv4wryI?si=LnaTdseZE7_7CIlf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <h3>Video tutorial</h3>
+            <h3 id="tutorialVideo">Video tutorial</h3>
             <iframe width="427" height="240" src="https://www.youtube.com/embed/Fa9QZDqHpg4?si=5W9W5xSHVMt7w7tp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
         </div>
@@ -144,7 +142,8 @@ We were gettin' high
         <small><a href="mailto:Ja@fake.com">Ja@fake.com</a>
     </footer>
 
-    <script src="index.js"></script>
+    <script src="language.js"></script>
+    <script src="langpolish.js"></script>
 </body>
 </html>
 

@@ -11,13 +11,13 @@ function langSwitchCheck() {
 if (langSwitch == 0)
 {
 polishSwitch();
-document.getElementById("langIcon").src="images/LanguagePolish.jpg";
+document.getElementById("langIcon").src="images/LanguageEnglish.jpg";
 langSwitch = 1;
 }
 else if(langSwitch == 1)
 {
 englishSwitch();
-document.getElementById("langIcon").src="images/LanguageEnglish.jpg";
+document.getElementById("langIcon").src="images/LanguagePolish.jpg";
 langSwitch = 0;
 }
 }
@@ -29,13 +29,6 @@ langSwitch = 0;
 function englishSwitch(){
 ///////////////////////Info and description/////////////////////////
 
-if (document.getElementById("welcomeHeader") != null)
-{
-    document.getElementById("welcomeHeader").textContent="Welcome to guitar tuner website by Filip Duda and Jakub Garus";
-
-    document.getElementById("info").textContent="Welocme to our guitar tuner project, the website is currenlty still in development, but most parts are already functional.\r\n";
-    document.getElementById("info").textContent+="We will gladly accept any and all feedback :)";
-
     document.getElementById("Nav1").textContent="Home page";
 
     document.getElementById("Nav2").textContent="PZE page";
@@ -45,6 +38,13 @@ if (document.getElementById("welcomeHeader") != null)
     document.getElementById("Nav4").textContent="Tutorials";
 
     document.getElementById("Nav5").textContent="Contact us";
+
+if (document.getElementById("welcomeHeader") != null)
+{
+    document.getElementById("welcomeHeader").textContent="Welcome to guitar tuner website by Filip Duda and Jakub Garus";
+
+    document.getElementById("info").textContent="Welocme to our guitar tuner project, the website is currenlty still in development, but most parts are already functional.\r\n";
+    document.getElementById("info").textContent+="We will gladly accept any and all feedback :)";
 
 ///////////////////////Tuner labels/////////////////////////
 
@@ -78,6 +78,26 @@ if (document.getElementById("compHeader") != null)
     document.getElementById("infoComponent3").textContent="Our microphone requires a supply voltage between 2.4 V and 5.5 V, which is suitable because the ESP provides 3.3 V to the MAX4466. The microphone amplifier has a Power Supply Rejection Ratio of 112 dB, meaning the signal experiences less distortion from power supply better.";
 }
 
+//////////////////////////Tutorials////////////////////////////////
+
+if (document.getElementById("tutorialHeader") != null)
+{
+    document.getElementById("tutorialHeader").textContent="Tutorials";
+
+const tutorialButtons = document.getElementsByClassName("tutorialBtn");
+for (let i = 0; i < tutorialButtons.length; i++) {
+    tutorialButtons[i].textContent = "Learn";
+}
+}
+
+if (document.getElementById("tutorialSongHeader") != null)
+{
+    document.getElementById("tutorialSongHeader").textContent="Tutorials";
+
+    document.getElementById("ogVideo").textContent="Original video";
+
+    document.getElementById("tutorialVideo").textContent="Tutorial video";
+}
 
 }
 

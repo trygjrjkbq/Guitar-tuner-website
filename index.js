@@ -80,6 +80,7 @@ window.onload = function() {
     slider.oninput = function() {
 	var sliderVal = slider.value - 1;
 	bufSize = 1024*2**sliderVal;
+    if (result) result.innerHTML = bufSize;
 }
 
 function updateBufferSize(){
@@ -150,11 +151,42 @@ function guitarNoteSearch( frequency ){
 			Gnote = o;
 		}
 	}
-	console.log(noteTemp);
+	//console.log(noteTemp);
 	return noteTemp;
 }
 
 function autoCorrelate(buf, sampleRate) {
+    var correlateAvg = 0;
+    var correlateTemp = 0;
+    var correlateError = 0;
+    // Taking an average to prevent jittery movement and instability 
+    for (let u = 0; u<128; u++)
+    {
+        correlateTemp = autoCorrelateStep(buf, sampleRate);
+        //console.log("ac start");
+        if (correlateTemp==-1)
+        {
+            correlateError++;
+           // console.log("correlate error");
+            if(correlateError >= 6)
+            {
+                return -1;
+            }
+        }
+        else
+        {
+            console.log("correlate calc");
+            console.log(correlateAvg);
+            correlateAvg = correlateAvg + correlateTemp;
+        }
+    }
+        correlateAvg = correlateAvg/(128-correlateError);
+        //console.log(correlateAvg);
+        return correlateAvg;
+}
+
+
+function autoCorrelateStep(buf, sampleRate) {
     const SIZE = buf.length;
     const MAX_SAMPLES = Math.floor(SIZE/2);
     let best_offset = -1;
@@ -194,7 +226,7 @@ function autoCorrelate(buf, sampleRate) {
     return -1;
 }
 
-// --- Igła i kolor ---
+// Converting pitch to needle angle
 function centsToAngle(cents){
     const maxCents = 50;
     const maxAngle = 80;
@@ -208,7 +240,7 @@ function colorForCents(absCents){
     return '#c84b4b';
 }
 
-// --- Kropki łuku ---
+// drawing dots
 function createArcTicks(count=17, radius=15, startAngle=-80, endAngle=80){
     const meter = document.getElementById('meter');
     if(!meter) return;
@@ -223,6 +255,7 @@ function createArcTicks(count=17, radius=15, startAngle=-80, endAngle=80){
         meter.appendChild(t);
     }
 }
+
 
 function updateArcTicks(detune, count=17, maxCents=50){
     const meter = document.getElementById('meter');
@@ -250,6 +283,7 @@ function updateArcTicks(detune, count=17, maxCents=50){
     }
 }
 
+// updating the detector elements on diplay
 function updatePitch(){
     if(!analyser) return requestAnimationFrame(updatePitch);
     analyser.getFloatTimeDomainData(buf);

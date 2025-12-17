@@ -46,6 +46,20 @@ if (document.getElementById("welcomeHeader") != null)
     document.getElementById("info").textContent="Welocme to our guitar tuner project, the website is currenlty still in development, but most parts are already functional.\r\n";
     document.getElementById("info").textContent+="We will gladly accept any and all feedback :)";
 
+    document.getElementById("authors").textContent="Authors: Filip Duda and Jakub Garus";
+
+    document.getElementById("copyright").textContent="&copy; 2025 copyright reserved";
+
+///////////////////////////////Comments/////////////////////////////
+
+    document.getElementById("commentsComments").textContent="Comments";
+
+    document.getElementById("buttonCommentSubmit").textContent="Submit comment";
+
+    document.getElementById("commentsLoginLink").textContent="Log in";
+
+    document.getElementById("commentsLogin").textContent=" to write a comment.";
+
 ///////////////////////Tuner labels/////////////////////////
 
     document.getElementById("soundtest").textContent="Play sound";

@@ -15,14 +15,28 @@ function polishSwitch(){
 
     document.getElementById("Nav5").textContent="Kontakt";
 
+    document.getElementById("authors").textContent="Autorzy: Filip Duda oraz Jakub Garus";
+
+    document.getElementById("copyright").textContent="&copy; 2025 copyright reserved";
+
 if (document.getElementById("welcomeHeader") != null)
 {
-    /////////////////////////Main page//////////////////////////////////
-
     document.getElementById("welcomeHeader").textContent="Witamy na stronie tunera do gitary, stworzoną przez Filipa Dudę oraz Jakuba Garusa";
 
     document.getElementById("info").textContent="Witamy na stronie naszego projektu stroika do gitary. W stanie dzisiejszym prace nad nią jeszcze trwają, jednak większość zawartości jest funkcjonalna\r\n";
     document.getElementById("info").textContent+="Bylibyśmy wdzięczni za jakiekolwiek wiadomości zwrotne :)";
+
+///////////////////////////////Comments/////////////////////////////
+
+    document.getElementById("commentsComments").textContent="Komentarze";
+
+    document.getElementById("buttonCommentSubmit").textContent="Opublikuj komentarz";
+
+    document.getElementById("commentsLoginLink").textContent="Zaloguj się";
+
+    document.getElementById("commentsLogin").textContent=" aby móc pisać komentarze.";
+
+///////////////////////Tuner labels///////////////////////////////////
 
     document.getElementById("soundtest").textContent="Odtwórz dźwięk";
 

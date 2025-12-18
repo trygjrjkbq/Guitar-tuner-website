@@ -83,7 +83,7 @@ function englishSwitch(){
 
 if (document.getElementById("welcomeHeader") != null)
 {
-    document.getElementById("welcomeHeader").textContent="Welcome to guitar tuner website by Filip Duda and Jakub Garus";
+    document.getElementById("welcomeHeader").textContent="Welcome to guitar tuner website";
 
     document.getElementById("info").textContent="Welocme to our guitar tuner project, the website is currenlty still in development, but most parts are already functional.\r\n";
     document.getElementById("info").textContent+="We will gladly accept any and all feedback :)";
@@ -106,7 +106,7 @@ if (document.getElementById("welcomeHeader") != null)
 
     document.getElementById("commentsComments").textContent="Comments";
 
-    if(getCookie('loggedIn') || 'true')
+    if(getCookie('loggedIn') == 'true')
     {
     document.getElementById("buttonCommentSubmit").textContent="Submit comment";
     }

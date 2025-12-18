@@ -35,10 +35,10 @@
         <nav class="navbar">
             <ul>
                 <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
-                <li><?php if(!isset($_COOKIE['loggedIn'])): ?>
-                        <a id="Logi" href="logout.php">Log out</a>
+                <li><?php if(isset($_COOKIE['loggedIn'])): ?>
+                        <a id="Logo" href="logout.php">Log out</a>
                     <?php else: ?>
-                        <a id="Logo" href="LogIn.php">Log in!</a>
+                        <a id="Logi" href="LogIn.php">Log in!</a>
                     <?php endif; ?>
                 </li>
             </ul>

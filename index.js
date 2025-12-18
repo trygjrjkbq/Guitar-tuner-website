@@ -41,6 +41,8 @@ var mediaStreamSource = null;
 var rafID = null;
 var buf = new Float32Array(4096);
 var MIN_SAMPLES = 0;
+var avgBufferSize = 128;
+var bufferTemp;
 
 const noteStrings = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 var noteChart = [82.41, 110, 146.83, 196, 246.94, 329.63];
@@ -70,24 +72,34 @@ window.onload = function() {
 	detuneElem = document.getElementById( "detune" );
 	detuneAmount = document.getElementById( "detune_amt" );
 	slider = document.getElementById("slider");
+    slider2 = document.getElementById("slider2");
     result = document.getElementById("sliderValue");
+    result2 = document.getElementById("sliderValue2");
 	noteMatch = document.getElementById("noteMatch");
     noteOffset = document.getElementById("noteOffset");
     createArcTicks(17, 15, -80, 80);
 }
 
 // Updating size of buffer
-    slider.oninput = function() {
+slider.oninput = function() {
 	var sliderVal = slider.value - 1;
 	bufSize = 1024*2**sliderVal;
     if (result) result.innerHTML = bufSize;
 }
 
+slider2.oninput = function() {
+	var sliderVal2 = slider2.value - 1;
+    bufferTemp = 64+64*sliderVal2;
+    if (result2) result2.innerHTML = bufferTemp;
+}
+
 function updateBufferSize(){
-result.innerHTML = bufSize;
 buf = new Float32Array(bufSize);
 }
 
+function updateAvgBufferSize(){
+avgBufferSize = bufferTemp;
+}
 
 //Establishing connection with microphone
 //Error popup
@@ -160,7 +172,7 @@ function autoCorrelate(buf, sampleRate) {
     var correlateTemp = 0;
     var correlateError = 0;
     // Taking an average to prevent jittery movement and instability 
-    for (let u = 0; u<128; u++)
+    for (let u = 0; u<avgBufferSize; u++)
     {
         correlateTemp = autoCorrelateStep(buf, sampleRate);
         //console.log("ac start");
@@ -175,12 +187,10 @@ function autoCorrelate(buf, sampleRate) {
         }
         else
         {
-            console.log("correlate calc");
-            console.log(correlateAvg);
             correlateAvg = correlateAvg + correlateTemp;
         }
     }
-        correlateAvg = correlateAvg/(128-correlateError);
+        correlateAvg = correlateAvg/(avgBufferSize-correlateError);
         //console.log(correlateAvg);
         return correlateAvg;
 }

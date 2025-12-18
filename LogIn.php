@@ -17,7 +17,7 @@ include("database.php");
         <nav class="navbar">
             <ul>
                 <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
-                <li><a id="Log" href="LogIn.php">Log in!</a></li>
+                <li><a id="Logi" href="LogIn.php">Log in!</a></li>
             </ul>
             <ul id = "u2" class="u2">
                 <li><a id="Nav1" href="website.html">Home Page</a></li>
@@ -115,6 +115,8 @@ include("database.php");
                                 // sukces logowania
                                 $_SESSION['user_id'] = $row['id'];
                                 $_SESSION['username'] = $username;
+
+                                setcookie(loggedIn, true, "/");
 
                                 echo "Logged in! Redirecting...";
 

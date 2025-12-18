@@ -17,7 +17,7 @@ function polishSwitch(){
 
     document.getElementById("authors").textContent="Autorzy: Filip Duda oraz Jakub Garus";
 
-    document.getElementById("copyright").textContent="&copy; 2025 copyright reserved";
+    document.getElementById("copyright").textContent="©2025 copyright reserved";
 
 if (document.getElementById("welcomeHeader") != null)
 {
@@ -26,15 +26,30 @@ if (document.getElementById("welcomeHeader") != null)
     document.getElementById("info").textContent="Witamy na stronie naszego projektu stroika do gitary. W stanie dzisiejszym prace nad nią jeszcze trwają, jednak większość zawartości jest funkcjonalna\r\n";
     document.getElementById("info").textContent+="Bylibyśmy wdzięczni za jakiekolwiek wiadomości zwrotne :)";
 
+    if (document.getElementById("Logi") != null)
+    {
+        document.getElementById("Logi").textContent="Zaloguj się!";
+    }
+
+    if (document.getElementById("Logo") != null)
+    {
+        document.getElementById("Logo").textContent="Wyloguj się!";
+    }
+
 ///////////////////////////////Comments/////////////////////////////
 
     document.getElementById("commentsComments").textContent="Komentarze";
 
+    if(getCookie('loggedIn') || 'true')
+    {
     document.getElementById("buttonCommentSubmit").textContent="Opublikuj komentarz";
-
+    }
+    else
+    {
     document.getElementById("commentsLoginLink").textContent="Zaloguj się";
 
     document.getElementById("commentsLogin").textContent=" aby móc pisać komentarze.";
+    }
 
 ///////////////////////Tuner labels///////////////////////////////////
 

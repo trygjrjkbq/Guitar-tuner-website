@@ -1,6 +1,24 @@
 <?php
     session_start();
     include("database.php");
+
+    $comment_feedback = '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_text'])) {
+    if (isset($_COOKIE['loggedIn'])) {
+        $text = trim($_POST['comment_text']);
+        if ($text !== '') {
+            $stmt = $conn->prepare("INSERT INTO comments (user_id, content) VALUES (?, ?)");
+            $uid = $_SESSION['user_id'];
+            $stmt->bind_param("is", $uid, $text);
+            $stmt->execute();
+            $stmt->close();
+            header("Location: " . $_SERVER['PHP_SELF']); // odświeżenie
+            exit;
+        }
+    } else {
+        $comment_feedback = "You need to be logged in to write comments.";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +35,7 @@
         <nav class="navbar">
             <ul>
                 <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
-                <li><?php if (!empty($_SESSION['user_id'])): ?>
+                <li><?php if(!isset($_COOKIE['loggedIn'])): ?>
                         <a id="Logi" href="logout.php">Log out</a>
                     <?php else: ?>
                         <a id="Logo" href="LogIn.php">Log in!</a>
@@ -102,22 +120,7 @@
 </div>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_text'])) {
-    if (!empty($_SESSION['user_id'])) {
-        $text = trim($_POST['comment_text']);
-        if ($text !== '') {
-            $stmt = $conn->prepare("INSERT INTO comments (user_id, content) VALUES (?, ?)");
-            $uid = $_SESSION['user_id'];
-            $stmt->bind_param("is", $uid, $text);
-            $stmt->execute();
-            $stmt->close();
-            header("Location: " . $_SERVER['PHP_SELF']); // odświeżenie
-            exit;
-        }
-    } else {
-        $comment_feedback = "You need to be logged in to write comments.";
-    }
-}
+
 
 $comments = [];
 $res = $conn->query("SELECT c.content, c.created_at, u.username FROM comments c JOIN users u ON c.user_id = u.id ORDER BY c.created_at DESC");
@@ -125,7 +128,7 @@ while ($row = $res->fetch_assoc()) $comments[] = $row;
 ?>
 <div id="comments">
   <h3 id="commentsComments">Comments</h3>
-  <?php if(!empty($_SESSION['user_id'])): ?>
+  <?php if(isset($_COOKIE['loggedIn'])): ?>
     <form method="post" class="commentBox" action="<?php echo $_SERVER['PHP_SELF']; ?>">
       <textarea class="commentBoxStyle" name="comment_text" rows="3" cols="40"></textarea><br>
       <button class="buttonStyle" type="submit" id="buttonCommentSubmit">Write a comment</button>

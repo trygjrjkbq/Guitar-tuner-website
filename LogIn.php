@@ -116,7 +116,7 @@ include("database.php");
                                 $_SESSION['user_id'] = $row['id'];
                                 $_SESSION['username'] = $username;
 
-                                setcookie("loggedIn", "true", "/");
+                                setcookie("loggedIn", "true");
 
                                 echo "Logged in! Redirecting...";
 

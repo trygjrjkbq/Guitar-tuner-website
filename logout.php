@@ -6,5 +6,5 @@ if (ini_get("session.use_cookies")) {
 }
 session_destroy();
 header('Location: LogIn.php');
-setcookie("loggedIn", "false", "/");
+setcookie("loggedIn", "");
 exit;

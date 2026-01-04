@@ -17,7 +17,7 @@ include("database.php");
         <nav class="navbar">
             <ul>
                 <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
-                <li><a id="Log" href="LogIn.php">Log in!</a></li>
+                <li><a id="Logi" href="LogIn.php">Log in!</a></li>
             </ul>
             <ul id = "u2" class="u2">
                 <li><a id="Nav1" href="website.html">Home Page</a></li>
@@ -37,7 +37,7 @@ include("database.php");
         </div>
         <br>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form class="loginBox" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h3>Log in!</h3>
             username:<br>
             <input class="logIns" type="text" name="username"><br><br>
@@ -45,8 +45,10 @@ include("database.php");
             <input class="logIns" type="password" name="password"><br><br>
 
             <!-- Two przyciski do wyboru akcji -->
-            <button class="buttonstyleplay" type="submit" name="action" value="register">register</button>
-            <button class="buttonstyleplay" type="submit" name="action" value="login">login</button>
+            <div>
+            <button class="buttonStyle" type="submit" name="action" value="register">register</button>
+            <button class="buttonStyle" type="submit" name="action" value="login">login</button>
+            </div>
             <br><br>
 
             <?php
@@ -113,6 +115,8 @@ include("database.php");
                                 // sukces logowania
                                 $_SESSION['user_id'] = $row['id'];
                                 $_SESSION['username'] = $username;
+
+                                setcookie("loggedIn", "true");
 
                                 echo "Logged in! Redirecting...";
 

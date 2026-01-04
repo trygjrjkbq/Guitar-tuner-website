@@ -2,7 +2,7 @@
 //////////////Language control//////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-var langSwitch = 0;
+/*var langSwitch = 0;
 
 var langimg = document.createElement("langimg");
 var src = document.getElementById("lang");
@@ -20,7 +20,49 @@ englishSwitch();
 document.getElementById("langIcon").src="images/LanguagePolish.jpg";
 langSwitch = 0;
 }
+}*/
+
+/* helper: cookie get/set */
+function setCookie(name, value) {
+    document.cookie = name + "=" + encodeURIComponent(value) + ";path=/";
 }
+
+function getCookie(name) {
+    var m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return m ? decodeURIComponent(m.pop()) : null;
+}
+
+/* apply language based on cookie (call on load) */
+function applyLanguageFromCookie() {
+    var lang = getCookie('lang') || 'english';
+    var icon = document.getElementById("langIcon");
+    if (lang === 'polish') {
+        if (typeof polishSwitch === 'function') polishSwitch();
+        if (icon) icon.src = "images/LanguageEnglish.jpg";
+    } else {
+        if (typeof englishSwitch === 'function') englishSwitch();
+        if (icon) icon.src = "images/LanguagePolish.jpg";
+    }
+}
+
+/* replace toggle to use cookie */
+function langSwitchCheck() {
+    var current = getCookie('lang') || 'english';
+    var icon = document.getElementById("langIcon");
+    if (current === 'english') {
+        setCookie('lang', 'polish', 365);
+        if (typeof polishSwitch === 'function') polishSwitch();
+        if (icon) icon.src = "images/LanguageEnglish.jpg";
+    } 
+    if(current === 'polish'){
+        setCookie('lang', 'english', 365);
+        if (typeof englishSwitch === 'function') englishSwitch();
+        if (icon) icon.src = "images/LanguagePolish.jpg";
+    }
+}
+
+// ensure language applied after DOM ready
+document.addEventListener('DOMContentLoaded', applyLanguageFromCookie);
 
 ////////////////////////////////////////////////////////////////////
 ///////////////////////Text blocks in english///////////////////////
@@ -39,18 +81,49 @@ function englishSwitch(){
 
     document.getElementById("Nav5").textContent="Contact us";
 
+    document.getElementById("authors").textContent="Authors: Filip Duda and Jakub Garus";
+
+    document.getElementById("copyright").textContent= "©2025 copyright reserved";
+
 if (document.getElementById("welcomeHeader") != null)
 {
-    document.getElementById("welcomeHeader").textContent="Welcome to guitar tuner website by Filip Duda and Jakub Garus";
+    document.getElementById("welcomeHeader").textContent="Welcome to guitar tuner website";
 
-    document.getElementById("info").textContent="Welocme to our guitar tuner project, the website is currenlty still in development, but most parts are already functional.\r\n";
-    document.getElementById("info").textContent+="We will gladly accept any and all feedback :)";
+    document.getElementById("info").innerHTML="Welcome to our guitar tuner website. Here You can play guitar notes to tune by ear, or use Your microphone to record Your guitar. Use the sliders below to adapt tuner to Your needs: <br> - sample buffer size determines the size of Fourier transform buffer, higher values are more accurate for high pitch sounds. <br>- averaging buffer size changes how many iterations of calculations are being averaged, resulting in more stable tuner results but may introduce inaccuracies.";
+
+
+    if (document.getElementById("Logi") != null)
+    {
+        document.getElementById("Logi").textContent="Log in!";
+    }
+
+    if (document.getElementById("Logo") != null) 
+    {
+        document.getElementById("Logo").textContent="Log out!";
+    }
+
+///////////////////////////////Comments/////////////////////////////
+
+    document.getElementById("commentsComments").textContent="Comments";
+
+    if(getCookie('loggedIn') == 'true')
+    {
+    document.getElementById("buttonCommentSubmit").textContent="Submit comment";
+    }
+    else
+    {
+    document.getElementById("commentsLoginLink").textContent="Log in";
+
+    document.getElementById("commentsLogin").textContent=" to write a comment.";
+    }
 
 ///////////////////////Tuner labels/////////////////////////
 
     document.getElementById("soundtest").textContent="Play sound";
 
     document.getElementById("sampleBufferButton").textContent="Set sample buffer size";
+
+    document.getElementById("bufferButton").textContent="Set averaging buffer size";
 
     document.getElementById("sliderLabel").textContent="Value: ";
 

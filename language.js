@@ -172,5 +172,23 @@ if (document.getElementById("tutorialSongHeader") != null)
     document.getElementById("tutorialVideo").textContent="Tutorial video";
 }
 
+///////////////////////////Logging in/////////////////////////////////////
+
+if (document.getElementById("loginHeader") != null)
+{  
+    document.getElementById("loginHeader").textContent="Log in!";
+
+    document.getElementById("info").innerHTML="Here You can make your account to use your tuner and write comments.<br>When you already have account, log in and your saved settings will be set on.";
+
+    document.getElementById("loginboxlogin").innerHTML="Log in!";
+
+    document.getElementById("usernametxt").innerHTML="Username:";
+
+    document.getElementById("passwordtxt").innerHTML="Password:";
+
+    document.getElementById("registerbtn").innerHTML="Register";
+
+    document.getElementById("loginbtn").innerHTML="Log in";
+}
 }
 

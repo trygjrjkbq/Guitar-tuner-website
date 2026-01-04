@@ -107,4 +107,22 @@ if (document.getElementById("tutorialSongHeader") != null)
     document.getElementById("tutorialVideo").textContent="Film z tutorialem";
 }
 
+///////////////////////////Logging in/////////////////////////////////////
+
+if (document.getElementById("loginHeader") != null)
+{  
+    document.getElementById("loginHeader").textContent="Zaloguj się!";
+
+    document.getElementById("info").innerHTML="Tu mozesz stworzyć konto do tunera by pisać komentarze.<br>Jeśli masz już konto, zaloguj się, a zapisane ustawienia zostaną zastosowane.";
+
+    document.getElementById("loginboxlogin").innerHTML="Zaloguj się!";
+
+    document.getElementById("usernametxt").innerHTML="Nazwa użytkownika:";
+
+    document.getElementById("passwordtxt").innerHTML="Hasło:";
+
+    document.getElementById("registerbtn").innerHTML="Zarejestruj się";
+
+    document.getElementById("loginbtn").innerHTML="Zaloguj się";
+}
 }

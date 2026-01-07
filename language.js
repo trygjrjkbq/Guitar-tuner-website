@@ -2,27 +2,6 @@
 //////////////Language control//////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-/*var langSwitch = 0;
-
-var langimg = document.createElement("langimg");
-var src = document.getElementById("lang");
-
-function langSwitchCheck() {
-if (langSwitch == 0)
-{
-polishSwitch();
-document.getElementById("langIcon").src="images/LanguageEnglish.jpg";
-langSwitch = 1;
-}
-else if(langSwitch == 1)
-{
-englishSwitch();
-document.getElementById("langIcon").src="images/LanguagePolish.jpg";
-langSwitch = 0;
-}
-}*/
-
-/* helper: cookie get/set */
 function setCookie(name, value) {
     document.cookie = name + "=" + encodeURIComponent(value) + ";path=/";
 }
@@ -32,7 +11,6 @@ function getCookie(name) {
     return m ? decodeURIComponent(m.pop()) : null;
 }
 
-/* apply language based on cookie (call on load) */
 function applyLanguageFromCookie() {
     var lang = getCookie('lang') || 'english';
     var icon = document.getElementById("langIcon");
@@ -45,7 +23,6 @@ function applyLanguageFromCookie() {
     }
 }
 
-/* replace toggle to use cookie */
 function langSwitchCheck() {
     var current = getCookie('lang') || 'english';
     var icon = document.getElementById("langIcon");
@@ -61,7 +38,6 @@ function langSwitchCheck() {
     }
 }
 
-// ensure language applied after DOM ready
 document.addEventListener('DOMContentLoaded', applyLanguageFromCookie);
 
 ////////////////////////////////////////////////////////////////////

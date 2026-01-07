@@ -9,12 +9,12 @@ const ehighnote = document.getElementById("ehighnotecheck");
 const playsound = document.getElementById("soundtest");
 const soundresponse = document.getElementById("soundresponse");
 
-const audio1 = new Audio('notes/e2.mp3');
-const audio2 = new Audio('notes/a2.mp3');
-const audio3 = new Audio('notes/d3.mp3');
-const audio4 = new Audio('notes/g3.mp3');
-const audio5 = new Audio('notes/b3.mp3');
-const audio6 = new Audio('notes/e4.mp3');
+const audio1 = new Audio("notes/e2.mp3");
+const audio2 = new Audio("notes/a2.mp3");
+const audio3 = new Audio("notes/d3.mp3");
+const audio4 = new Audio("notes/g3.mp3");
+const audio5 = new Audio("notes/b3.mp3");
+const audio6 = new Audio("notes/e4.mp3");
 
 playsound.onclick = function() {
     if(enote.checked) audio1.play();
@@ -39,16 +39,16 @@ var analyser = null;
 var theBuffer = null;
 var mediaStreamSource = null;
 var rafID = null;
-var buf = new Float32Array(4096);
+var buf = new Float32Array(2048);
 var MIN_SAMPLES = 0;
-var avgBufferSize = 128;
-var bufferTemp;
+var avgBufferSize = 1;
+var bufferTemp = 1;
 
 const noteStrings = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 var noteChart = [82.41, 110, 146.83, 196, 246.94, 329.63];
 var noteChartString = ["E2", "A2", "D3", "G3", "B3", "E4"];
 var Gnote = 0;
-var bufSize = 2;
+var bufSize = 2048;
 var detectorElem, 
 	canvasElem,
 	pitchElem,
@@ -57,9 +57,9 @@ var detectorElem,
 	noteMatch,
 	detuneAmount;
 
-const freqDisplay = document.getElementById('freqDisplay');
-const colorBox = document.getElementById('colorBox');
-const needle = document.getElementById('needle');
+const freqDisplay = document.getElementById("freqDisplay");
+const colorBox = document.getElementById("colorBox");
+const needle = document.getElementById("needle");
 
 //Variables connected to the website
 window.onload = function() {
@@ -83,7 +83,7 @@ window.onload = function() {
 // Updating size of buffer
 slider.oninput = function() {
 	var sliderVal = slider.value - 1;
-	bufSize = 1024*2**sliderVal;
+	bufSize = 512*2**sliderVal;
     if (result) result.innerHTML = bufSize;
 }
 
@@ -95,46 +95,43 @@ slider2.oninput = function() {
 
 function updateBufferSize(){
 buf = new Float32Array(bufSize);
+toggleLiveInput();
 }
 
 function updateAvgBufferSize(){
 avgBufferSize = bufferTemp;
+console.log(avgBufferSize);
 }
 
 //Establishing connection with microphone
 //Error popup
 function error() {
-    alert('Stream generation failed.');
+    alert("Stream generation failed.");
 }
 
 //Aquiring information about user microphone
-function getUserMedia(dictionary, callback) {
+function toggleLiveInput() {
     try {
         navigator.getUserMedia = 
         	navigator.getUserMedia ||
         	navigator.webkitGetUserMedia ||
         	navigator.mozGetUserMedia;
-        navigator.getUserMedia(dictionary, callback, error);
+        navigator.getUserMedia({"audio": true}, gotStream, error);
     } catch (e) {
-        alert('getUserMedia threw exception :' + e);
+        alert("getUserMedia threw exception :" + e);
     }
 }
 
 //Establishing connection to user microphone and creating an analyser node
 function gotStream(stream) {
-    if (audioContext.state === 'suspended') {
-        audioContext.resume().catch(function(e){console.warn('resume failed', e); });
+    if (audioContext.state === "suspended") {
+        audioContext.resume().catch(function(e){console.warn("resume failed", e); });
     }
     mediaStreamSource = audioContext.createMediaStreamSource(stream);
     analyser = audioContext.createAnalyser();
-    analyser.fftSize = 2048;
+    analyser.fftSize = bufSize;
     mediaStreamSource.connect( analyser );
     updatePitch();
-}
-
-//recording and analysing the audio input
-function toggleLiveInput() {
-getUserMedia({"audio": true}, gotStream);
 }
 
 //Computing notes and frequency
@@ -163,7 +160,6 @@ function guitarNoteSearch( frequency ){
 			Gnote = o;
 		}
 	}
-	//console.log(noteTemp);
 	return noteTemp;
 }
 
@@ -186,7 +182,7 @@ function autoCorrelate(buf, sampleRate) {
         {
             correlateError++;
            // console.log("correlate error");
-            if(correlateError >= 10)
+            if(correlateError >= Number.parseFloat(avgBufferSize/16).toFixed(0))
             {
                 return -1;
             }
@@ -252,20 +248,20 @@ function centsToAngle(cents){
 }
 
 function colorForCents(absCents){
-    if(absCents<=5) return '#2aa552';
-    if(absCents<=15) return '#e0a03a';
-    return '#c84b4b';
+    if(absCents<=5) return "#2aa552";
+    if(absCents<=15) return "#e0a03a";
+    return "#c84b4b";
 }
 
 // drawing dots
 function createArcTicks(count=17, radius=15, startAngle=-80, endAngle=80){
-    const meter = document.getElementById('meter');
+    const meter = document.getElementById("meter");
     if(!meter) return;
-    const existing = meter.querySelectorAll('.arc-tick');
+    const existing = meter.querySelectorAll(".arc-tick");
     existing.forEach(e=>e.remove());
     for(let i=0;i<count;i++){
-        const t = document.createElement('div');
-        t.className = 'arc-tick';
+        const t = document.createElement("div");
+        t.className = "arc-tick";
         const frac = i/(count-1);
         const angle = startAngle + frac*(endAngle-startAngle);
         t.style.transform = `rotate(${angle}deg) translateY(-${radius}px)`;
@@ -274,28 +270,28 @@ function createArcTicks(count=17, radius=15, startAngle=-80, endAngle=80){
 }
 
 
-function updateArcTicks(detune, count=17, maxCents=50){
-    const meter = document.getElementById('meter');
+function updateArcTicks(detune, maxCents=50){
+    const meter = document.getElementById("meter");
     if(!meter) return;
-    const ticks = Array.from(meter.querySelectorAll('.arc-tick'));
+    const ticks = Array.from(meter.querySelectorAll(".arc-tick"));
     const centerIndex = Math.floor((ticks.length-1)/2);
     const absC = Math.min(Math.abs(detune), maxCents);
     const sideCount = Math.round((absC/maxCents)*centerIndex);
-    ticks.forEach(t=>t.classList.remove('activeR','activeY','ok'));
+    ticks.forEach(t=>t.classList.remove("activeR","activeY","ok"));
 
     const mid = ticks[centerIndex];
-    if(Math.abs(detune)<=4){ mid.classList.add('ok'); return; }
+    if(Math.abs(detune)<=4){ mid.classList.add("ok"); return; }
 
     const yellowNear = 3;
     if(detune>0){
         for(let i=1;i<=sideCount;i++){
             const t = ticks[centerIndex+i]; if(!t) continue;
-            if(i<=yellowNear) t.classList.add('activeY'); else t.classList.add('activeR');
+            if(i<=yellowNear) t.classList.add("activeY"); else t.classList.add("activeR");
         }
     } else{
         for(let i=1;i<=sideCount;i++){
             const t = ticks[centerIndex-i]; if(!t) continue;
-            if(i<=yellowNear) t.classList.add('activeY'); else t.classList.add('activeR');
+            if(i<=yellowNear) t.classList.add("activeY"); else t.classList.add("activeR");
         }
     }
 }
@@ -311,9 +307,9 @@ function updatePitch(){
 		if (noteElem) noteElem.innerText = "-";
 		if (detuneElem) detuneElem.className = "";
 		if (detuneAmount) detuneAmount.innerText = "--";
-        if (freqDisplay) freqDisplay.textContent='-- Hz';
-        if (needle) needle.style.transform='rotate(0deg)';
-        if (colorBox) colorBox.style.background='#888';
+        if (freqDisplay) freqDisplay.textContent="-- Hz";
+        if (needle) needle.style.transform="rotate(0deg)";
+        if (colorBox) colorBox.style.background="#888";
         updateArcTicks(0);
 
     } else{
@@ -321,7 +317,7 @@ function updatePitch(){
         let note = noteFromPitch(pitch);
         let detune = centsOffFromPitch(pitch, note);
 
-        if(freqDisplay) freqDisplay.textContent = pitch.toFixed(1)+' Hz';
+        if(freqDisplay) freqDisplay.textContent = pitch.toFixed(1)+" Hz";
         if(noteElem) noteElem.textContent = noteStrings[(note%12+12)%12];
         if(needle) needle.style.transform = `rotate(${centsToAngle(detune)}deg)`;
         if(colorBox) colorBox.style.background = colorForCents(Math.abs(detune));

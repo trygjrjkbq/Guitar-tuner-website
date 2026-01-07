@@ -1,6 +1,24 @@
 <?php
     session_start();
     include("database.php");
+
+    $comment_feedback = '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_text'])) {
+    if (isset($_COOKIE['loggedIn'])) {
+        $text = trim($_POST['comment_text']);
+        if ($text !== '') {
+            $stmt = $conn->prepare("INSERT INTO comments (user_id, content) VALUES (?, ?)");
+            $uid = $_SESSION['user_id'];
+            $stmt->bind_param("is", $uid, $text);
+            $stmt->execute();
+            $stmt->close();
+            header("Location: " . $_SERVER['PHP_SELF']); // odświeżenie
+            exit;
+        }
+    } else {
+        $comment_feedback = "You need to be logged in to write comments.";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,10 +35,10 @@
         <nav class="navbar">
             <ul>
                 <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
-                <li><?php if (!empty($_SESSION['user_id'])): ?>
-                        <a id="Log" href="logout.php">Log out</a>
+                <li><?php if(isset($_COOKIE['loggedIn'])): ?>
+                        <a id="Logo" href="logout.php">Log out</a>
                     <?php else: ?>
-                        <a id="Log" href="LogIn.php">Log in!</a>
+                        <a id="Logi" href="LogIn.php">Log in!</a>
                     <?php endif; ?>
                 </li>
             </ul>
@@ -38,36 +56,41 @@
     <main>
         
         <div class="info" id="info">
-            <h2>Guitar Tuner</h2>
-            <p>Welcome to our guitar tuner website, currently still in development. <br> When finished, this page will house a widget to help with tuning guitars. </p>
+            <p>Welcome to our guitar tuner website. Here You can play guitar notes to tune by ear, or use Your microphone to record Your guitar. Use the sliders below to adapt 
+            tuner to Your needs: <br> - sample buffer size determines the size of Fourier transform buffer, higher values are more accurate for high pitch sounds. <br>
+            - averaging buffer size changes how many iterations of calculations are being averaged, resulting in more stable tuner results but may introduse inaccuracies.</p>
         </div>
         <br>
 
         <div class="notebox">
-            <input type="radio" id="enotecheck" name="note"class="buttonstyle">
+            <input type="radio" id="enotecheck" name="note"class="radioStyle">
                 <label for="enotecheck">E2</label>
-                <input type="radio" id="anotecheck" name="note"class="buttonstyle">
+                <input type="radio" id="anotecheck" name="note"class="radioStyle">
                 <label for="anotecheck">A</label>
-                <input type="radio" id="dnotecheck" name="note"class="buttonstyle">
+                <input type="radio" id="dnotecheck" name="note"class="radioStyle">
                 <label for="dnotecheck">D</label>
-                <input type="radio" id="gnotecheck" name="note"class="buttonstyle">
+                <input type="radio" id="gnotecheck" name="note"class="radioStyle">
                 <label for="gnotecheck">G</label>
-                <input type="radio" id="bnotecheck" name="note"class="buttonstyle">
+                <input type="radio" id="bnotecheck" name="note"class="radioStyle">
                 <label for="bnotecheck">B</label>
-                <input type="radio" id="ehighnotecheck" name="note" class="buttonstyle">
+                <input type="radio" id="ehighnotecheck" name="note" class="radioStyle">
                 <label for="ehighnotecheck">E4</label><br><br>
 
                 <button type="play" id="soundtest" class="buttonstyleplay">Play sound</button><br><br>
                 <p id="soundresponse"></p><br>
         </div>
 
-<div id="detector" class="confident tuner-container">
+<div id="detector" class="tuner-container">
 
     <button class="tunerToggle" onclick="toggleLiveInput()">Start</button><br>
     <div class="slidecontainer">
-        <input type="range" min="1" max="10" value="3" class="slider" id="slider">
-        <p><div id="sliderLabel">Value: </div><span id="sliderValue">4096</span></p>
-        <button onclick="updateBufferSize()" class="bufferSizeSet" id="sampleBufferButton">Set sample buffer size</button>
+        <input type="range" min="1" max="7" value="3" class="slider" id="slider">
+        <p><div id="sliderLabel">Value: </div><span id="sliderValue">2048</span></p>
+        <button onclick="updateBufferSize()" class="buttonStyle" id="sampleBufferButton">Set sample buffer size</button>
+        <br><br>
+        <input type="range" min="1" max="10" value="1" class="slider" id="slider2">
+        <p><div id="sliderLabel">Value: </div><span id="sliderValue2">1</span></p>
+        <button onclick="updateAvgBufferSize()" class="buttonStyle" id="bufferButton">Set averaging buffer size</button>
     </div>
 
 
@@ -98,36 +121,21 @@
 </div>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_text'])) {
-    if (!empty($_SESSION['user_id'])) {
-        $text = trim($_POST['comment_text']);
-        if ($text !== '') {
-            $stmt = $conn->prepare("INSERT INTO comments (user_id, content) VALUES (?, ?)");
-            $uid = $_SESSION['user_id'];
-            $stmt->bind_param("is", $uid, $text);
-            $stmt->execute();
-            $stmt->close();
-            header("Location: " . $_SERVER['PHP_SELF']); // odświeżenie
-            exit;
-        }
-    } else {
-        $comment_feedback = "You need to be logged in to write comments.";
-    }
-}
+
 
 $comments = [];
 $res = $conn->query("SELECT c.content, c.created_at, u.username FROM comments c JOIN users u ON c.user_id = u.id ORDER BY c.created_at DESC");
 while ($row = $res->fetch_assoc()) $comments[] = $row;
 ?>
 <div id="comments">
-  <h3>Comments</h3>
-  <?php if(!empty($_SESSION['user_id'])): ?>
-    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-      <textarea name="comment_text" rows="3" cols="40"></textarea><br>
-      <button type="submit">Write a comment</button>
+  <h3 id="commentsComments">Comments</h3>
+  <?php if(isset($_COOKIE['loggedIn'])): ?>
+    <form method="post" class="commentBox" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <textarea class="commentBoxStyle" name="comment_text" rows="3" cols="40"></textarea><br>
+      <button class="buttonStyle" type="submit" id="buttonCommentSubmit">Write a comment</button>
     </form>
   <?php else: ?>
-    <p><a href="LogIn.php?return=<?php echo urlencode($_SERVER['PHP_SELF']); ?>">Log in</a> to write a comment.</p>
+    <p><a id="commentsLoginLink" href="LogIn.php?return=<?php echo urlencode($_SERVER['PHP_SELF']); ?>">Log in</a><a id="commentsLogin"> to write a comment.</a></p>
   <?php endif; ?>
   <p><?php echo $comment_feedback ?? ''; ?></p>
 
@@ -145,8 +153,8 @@ while ($row = $res->fetch_assoc()) $comments[] = $row;
     <br>
     <footer style="background-color: rgb(95, 8, 8)">
         <hr>
-        Authors: Filip Duda and Jakub Garus</br>
-        &copy; 2025 copyright reserved<br>
+        <div id="authors">Authors: Filip Duda and Jakub Garus</div>
+        <div id="copyright">&copy; 2025 copyright reserved</div>
         <small><a href="mailto:Ja@fake.com">Ja@fake.com</a>
     </footer>
 </body>

@@ -12,12 +12,11 @@ include("database.php");
 <body>
     <header class="header">
             
-        <h1 id="welcomeHeader">Log In!</h1>
+        <h1 id="loginHeader">Log In!</h1>
             
         <nav class="navbar">
             <ul>
                 <div class="lang" id="lang" onclick="langSwitchCheck()"><img id="langIcon" src="images/LanguagePolish.jpg"></div>
-                <li><a id="Log" href="LogIn.php">Log in!</a></li>
             </ul>
             <ul id = "u2" class="u2">
                 <li><a id="Nav1" href="website.html">Home Page</a></li>
@@ -32,21 +31,22 @@ include("database.php");
 
     <main>
         <div class="info" id="info">
-            <h2>Guitar Tuner</h2>
             <p>You can make your account to use your tuner and write comments. <br> When you already have account, log in and your saved settings will be set on. </p>
         </div>
         <br>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <h3>Log in!</h3>
-            username:<br>
+        <form class="loginBox" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <h3 id="loginboxlogin">Log in!</h3>
+            <div id="usernametxt"> username:</div>
             <input class="logIns" type="text" name="username"><br><br>
-            password:<br>
+            <div id="passwordtxt">password:</div>
             <input class="logIns" type="password" name="password"><br><br>
 
-            <!-- Two przyciski do wyboru akcji -->
-            <button class="buttonstyleplay" type="submit" name="action" value="register">register</button>
-            <button class="buttonstyleplay" type="submit" name="action" value="login">login</button>
+            <!-- dwa przyciski do wyboru akcji -->
+            <div>
+            <button id="registerbtn" class="buttonStyle" type="submit" name="action" value="register">register</button>
+            <button id="loginbtn" class="buttonStyle" type="submit" name="action" value="login">login</button>
+            </div>
             <br><br>
 
             <?php
@@ -114,6 +114,8 @@ include("database.php");
                                 $_SESSION['user_id'] = $row['id'];
                                 $_SESSION['username'] = $username;
 
+                                setcookie("loggedIn", "true");
+
                                 echo "Logged in! Redirecting...";
 
                                 header("Refresh: 1; URL=website.html");
@@ -133,17 +135,14 @@ include("database.php");
             }
             ?>
         </form>
-    </main>
-
     <script src="language.js"></script>
     <script src="langpolish.js"></script>
-    <script src="index.js"></script>
-
+    </main>
     <br>
     <footer style="background-color: rgb(95, 8, 8)">
         <hr>
-        Authors: Filip Duda and Jakub Garus</br>
-        &copy; 2025 copyright reserved<br>
+        <div id="authors">Authors: Filip Duda and Jakub Garus</div>
+        <div id="copyright">&copy; 2025 copyright reserved</div>
         <small><a href="mailto:Ja@fake.com">Ja@fake.com</a>
     </footer>
 </body>

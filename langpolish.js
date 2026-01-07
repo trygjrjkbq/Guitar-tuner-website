@@ -15,18 +15,48 @@ function polishSwitch(){
 
     document.getElementById("Nav5").textContent="Kontakt";
 
+    document.getElementById("authors").textContent="Autorzy: Filip Duda oraz Jakub Garus";
+
+    document.getElementById("copyright").textContent="©2025 copyright reserved";
+
 if (document.getElementById("welcomeHeader") != null)
 {
-    /////////////////////////Main page//////////////////////////////////
+    document.getElementById("welcomeHeader").textContent="Witamy na stronie tunera do gitary";
 
-    document.getElementById("welcomeHeader").textContent="Witamy na stronie tunera do gitary, stworzoną przez Filipa Dudę oraz Jakuba Garusa";
+    document.getElementById("info").innerHTML="Witamy na stronie naszego projektu stroika do gitary. Mogą Państwo tutaj odtworzyć nuty gitary, by nastroić na słuch lub użyć mikrofonu by nagrać dźwięk swej gitary. Można użyć poniższych suwaków by dostosować tuner do swych potrzeb: <br> - wielkość bufora próbek definiuje rozmiar bufora transformaty Fouriera, gdzie wyższe wartości są bardziej dokładne dla wyższych częstotliwości, i vice versa. <br>- Rozmiar bufora uśredniającego zmienia ilość iteracji programu, które są później uśredniane, co powoduje bardziej stabilne wyniki, kosztem niedokładności.";
 
-    document.getElementById("info").textContent="Witamy na stronie naszego projektu stroika do gitary. W stanie dzisiejszym prace nad nią jeszcze trwają, jednak większość zawartości jest funkcjonalna\r\n";
-    document.getElementById("info").textContent+="Bylibyśmy wdzięczni za jakiekolwiek wiadomości zwrotne :)";
+    if (document.getElementById("Logi") != null)
+    {
+        document.getElementById("Logi").textContent="Zaloguj się!";
+    }
+
+    if (document.getElementById("Logo") != null)
+    {
+        document.getElementById("Logo").textContent="Wyloguj się!";
+    }
+
+///////////////////////////////Comments/////////////////////////////
+
+    document.getElementById("commentsComments").textContent="Komentarze";
+
+    if(getCookie('loggedIn') == 'true')
+    {
+    document.getElementById("buttonCommentSubmit").textContent="Opublikuj komentarz";
+    }
+    else
+    {
+    document.getElementById("commentsLoginLink").textContent="Zaloguj się";
+
+    document.getElementById("commentsLogin").textContent=" aby móc pisać komentarze.";
+    }
+
+///////////////////////Tuner labels///////////////////////////////////
 
     document.getElementById("soundtest").textContent="Odtwórz dźwięk";
 
     document.getElementById("sampleBufferButton").textContent="Wybierz wielkość bufora próbek";
+
+    document.getElementById("bufferButton").textContent="Wybierz wielkość bufora uśredniającego";
 
     document.getElementById("sliderLabel").textContent="Wartość: ";
 
@@ -77,4 +107,22 @@ if (document.getElementById("tutorialSongHeader") != null)
     document.getElementById("tutorialVideo").textContent="Film z tutorialem";
 }
 
+///////////////////////////Logging in/////////////////////////////////////
+
+if (document.getElementById("loginHeader") != null)
+{  
+    document.getElementById("loginHeader").textContent="Zaloguj się!";
+
+    document.getElementById("info").innerHTML="Tu mozesz stworzyć konto do tunera by pisać komentarze.<br>Jeśli masz już konto, zaloguj się, a zapisane ustawienia zostaną zastosowane.";
+
+    document.getElementById("loginboxlogin").innerHTML="Zaloguj się!";
+
+    document.getElementById("usernametxt").innerHTML="Nazwa użytkownika:";
+
+    document.getElementById("passwordtxt").innerHTML="Hasło:";
+
+    document.getElementById("registerbtn").innerHTML="Zarejestruj się";
+
+    document.getElementById("loginbtn").innerHTML="Zaloguj się";
+}
 }

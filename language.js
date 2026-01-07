@@ -2,25 +2,43 @@
 //////////////Language control//////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-var langSwitch = 0;
+function setCookie(name, value) {
+    document.cookie = name + "=" + encodeURIComponent(value) + ";path=/";
+}
 
-var langimg = document.createElement("langimg");
-var src = document.getElementById("lang");
+function getCookie(name) {
+    var m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return m ? decodeURIComponent(m.pop()) : null;
+}
+
+function applyLanguageFromCookie() {
+    var lang = getCookie('lang') || 'english';
+    var icon = document.getElementById("langIcon");
+    if (lang === 'polish') {
+        if (typeof polishSwitch === 'function') polishSwitch();
+        if (icon) icon.src = "images/LanguageEnglish.jpg";
+    } else {
+        if (typeof englishSwitch === 'function') englishSwitch();
+        if (icon) icon.src = "images/LanguagePolish.jpg";
+    }
+}
 
 function langSwitchCheck() {
-if (langSwitch == 0)
-{
-polishSwitch();
-document.getElementById("langIcon").src="images/LanguageEnglish.jpg";
-langSwitch = 1;
+    var current = getCookie('lang') || 'english';
+    var icon = document.getElementById("langIcon");
+    if (current === 'english') {
+        setCookie('lang', 'polish', 365);
+        if (typeof polishSwitch === 'function') polishSwitch();
+        if (icon) icon.src = "images/LanguageEnglish.jpg";
+    } 
+    if(current === 'polish'){
+        setCookie('lang', 'english', 365);
+        if (typeof englishSwitch === 'function') englishSwitch();
+        if (icon) icon.src = "images/LanguagePolish.jpg";
+    }
 }
-else if(langSwitch == 1)
-{
-englishSwitch();
-document.getElementById("langIcon").src="images/LanguagePolish.jpg";
-langSwitch = 0;
-}
-}
+
+document.addEventListener('DOMContentLoaded', applyLanguageFromCookie);
 
 ////////////////////////////////////////////////////////////////////
 ///////////////////////Text blocks in english///////////////////////
@@ -39,18 +57,49 @@ function englishSwitch(){
 
     document.getElementById("Nav5").textContent="Contact us";
 
+    document.getElementById("authors").textContent="Authors: Filip Duda and Jakub Garus";
+
+    document.getElementById("copyright").textContent= "©2025 copyright reserved";
+
 if (document.getElementById("welcomeHeader") != null)
 {
-    document.getElementById("welcomeHeader").textContent="Welcome to guitar tuner website by Filip Duda and Jakub Garus";
+    document.getElementById("welcomeHeader").textContent="Welcome to guitar tuner website";
 
-    document.getElementById("info").textContent="Welocme to our guitar tuner project, the website is currenlty still in development, but most parts are already functional.\r\n";
-    document.getElementById("info").textContent+="We will gladly accept any and all feedback :)";
+    document.getElementById("info").innerHTML="Welcome to our guitar tuner website. Here You can play guitar notes to tune by ear, or use Your microphone to record Your guitar. Use the sliders below to adapt tuner to Your needs: <br> - sample buffer size determines the size of Fourier transform buffer, higher values are more accurate for high pitch sounds. <br>- averaging buffer size changes how many iterations of calculations are being averaged, resulting in more stable tuner results but may introduce inaccuracies.";
+
+
+    if (document.getElementById("Logi") != null)
+    {
+        document.getElementById("Logi").textContent="Log in!";
+    }
+
+    if (document.getElementById("Logo") != null) 
+    {
+        document.getElementById("Logo").textContent="Log out!";
+    }
+
+///////////////////////////////Comments/////////////////////////////
+
+    document.getElementById("commentsComments").textContent="Comments";
+
+    if(getCookie('loggedIn') == 'true')
+    {
+    document.getElementById("buttonCommentSubmit").textContent="Submit comment";
+    }
+    else
+    {
+    document.getElementById("commentsLoginLink").textContent="Log in";
+
+    document.getElementById("commentsLogin").textContent=" to write a comment.";
+    }
 
 ///////////////////////Tuner labels/////////////////////////
 
     document.getElementById("soundtest").textContent="Play sound";
 
     document.getElementById("sampleBufferButton").textContent="Set sample buffer size";
+
+    document.getElementById("bufferButton").textContent="Set averaging buffer size";
 
     document.getElementById("sliderLabel").textContent="Value: ";
 
@@ -99,5 +148,23 @@ if (document.getElementById("tutorialSongHeader") != null)
     document.getElementById("tutorialVideo").textContent="Tutorial video";
 }
 
+///////////////////////////Logging in/////////////////////////////////////
+
+if (document.getElementById("loginHeader") != null)
+{  
+    document.getElementById("loginHeader").textContent="Log in!";
+
+    document.getElementById("info").innerHTML="Here You can make your account to use your tuner and write comments.<br>When you already have account, log in and your saved settings will be set on.";
+
+    document.getElementById("loginboxlogin").innerHTML="Log in!";
+
+    document.getElementById("usernametxt").innerHTML="Username:";
+
+    document.getElementById("passwordtxt").innerHTML="Password:";
+
+    document.getElementById("registerbtn").innerHTML="Register";
+
+    document.getElementById("loginbtn").innerHTML="Log in";
+}
 }
 
